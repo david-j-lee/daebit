@@ -9,10 +9,11 @@ export class ConfigService {
   // TODO: says DOCUMENT is deprecated, need to research
   // tslint:disable-next-line
   constructor(@Inject(DOCUMENT) private document) {
+    console.log(isDevMode);
     if (isDevMode) {
-      this.apiURI = 'https://api.daebit.com/api';
-    } else {
       this.apiURI = 'http://localhost:5000/api';
+    } else {
+      this.apiURI = 'https://api.daebit.com/api';
     }
   }
 
