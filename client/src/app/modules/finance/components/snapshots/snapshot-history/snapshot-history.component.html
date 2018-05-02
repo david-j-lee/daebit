@@ -1,0 +1,44 @@
+<h4 mat-dialog-title>Snapshots</h4>
+<div mat-dialog-content>
+    <div *ngIf="financeService.selectedBudget">
+        <mat-table #table
+                   [dataSource]="dataSource">
+
+            <!-- Date -->
+            <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+                <mat-cell *matCellDef="let item">{{ item.date | date: 'MM/dd/yyyy' }}</mat-cell>
+            </ng-container>
+
+            <!-- Description -->
+            <ng-container matColumnDef="estimatedBalance">
+                <mat-header-cell *matHeaderCellDef>Est. Bal.</mat-header-cell>
+                <mat-cell *matCellDef="let item"
+                          class="text-right">{{ item.estimatedBalance }}</mat-cell>
+            </ng-container>
+
+            <!-- Description -->
+            <ng-container matColumnDef="actualBalance">
+                <mat-header-cell *matHeaderCellDef>Act. Bal.</mat-header-cell>
+                <mat-cell *matCellDef="let item"
+                          class="text-right">{{ item.actualBalance }}</mat-cell>
+            </ng-container>
+
+            <!-- Description -->
+            <ng-container matColumnDef="balanceDifference">
+                <mat-header-cell *matHeaderCellDef>Bal. Diff.</mat-header-cell>
+                <mat-cell *matCellDef="let item"
+                          class="text-right">{{ item.balanceDifference }}</mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayColumns;"></mat-row>
+
+        </mat-table>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button
+            [mat-dialog-close]>Close</button>
+</div>
+<div></div>

@@ -1,0 +1,22 @@
+<mat-menu #appMenu="matMenu"
+          overlapTrigger="false">
+  <a mat-menu-item
+     [routerLink]="['/budgets']">
+    <span class="nav-item">
+      <img src="assets/images/finances.png"
+           class="d-block" /> Budgets
+    </span>
+  </a>
+  <a mat-menu-item
+     [routerLink]="['/gradebooks']">
+    <span class="nav-item">
+      <img src="assets/images/grades.png"
+           class="d-block" /> Gradebooks
+    </span>
+  </a>
+</mat-menu>
+
+<button mat-icon-button
+        [matMenuTriggerFor]="appMenu">
+  <mat-icon>apps</mat-icon>
+</button>

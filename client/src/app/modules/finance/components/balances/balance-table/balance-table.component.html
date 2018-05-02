@@ -1,0 +1,14 @@
+<mat-list>
+  <mat-list-item *ngFor="let balance of financeService.selectedBudget.balances">
+    <button mat-icon-button
+            [routerLink]="['./balance', balance.id, 'edit']"
+            class="mr-2">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <div class="fill-space">
+      <a class="pointer"
+         [routerLink]="['./balance', balance.id, 'edit']">{{balance.description}}</a>
+    </div>
+    <div>$ {{balance.amount}}</div>
+  </mat-list-item>
+</mat-list>

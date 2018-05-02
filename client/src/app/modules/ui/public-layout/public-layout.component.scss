@@ -1,0 +1,33 @@
+@import "~sass/_variables.scss";
+.site-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.navbar {
+    ul {
+        padding: 0;
+        list-style: none;
+        margin: auto;
+    }
+    li {
+        float: left;
+        padding: 0 15px;
+    }
+    a {
+        text-decoration: none;
+        color: inherit;
+        &:hover {
+            color: inherit;
+        }
+    }
+}
+
+.footer {
+    text-align: center;
+    padding: 15px 0;
+    background-color: #ccc;
+    color: #555;
+}

@@ -1,0 +1,35 @@
+.mat-table {
+    min-width: 900px;
+}
+
+.mat-column-isCompleted {
+    flex: 0 0 50px;
+    margin-right: 15px;
+    overflow: initial;
+    text-align: center;
+}
+
+.mat-column-earned {
+    flex: 0 0 100px;
+    margin-right: 15px;
+}
+
+.mat-column-possible {
+    flex: 0 0 100px;
+    margin-right: 15px;
+}
+
+.mat-column-weight {
+    flex: 0 0 100px;
+    margin-right: 15px;
+}
+
+.mat-column-grade {
+    flex: 0 0 90px;
+}
+
+.mat-column-delete {
+    flex: 0 0 50px;
+    overflow: initial;
+    text-align: center;
+}

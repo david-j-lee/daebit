@@ -1,0 +1,88 @@
+<div class="wrapper">
+
+    <mat-toolbar color="primary">
+        <a class="company-name">Daebit</a>
+
+        <mat-menu #appMenu="matMenu">
+            <a mat-menu-item
+               [routerLink]="['/users/me']">Profile</a>
+            <button mat-menu-item
+                    (click)="logout()">Log out</button>
+        </mat-menu>
+
+        <div class="flex-grow-1 text-right">
+            <button mat-icon-button
+                    [matMenuTriggerFor]="appMenu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+        </div>
+    </mat-toolbar>
+
+    <mat-nav-list>
+        <div *ngFor="let item of navbarService.items">
+            <a mat-list-item
+               [routerLink]="['/' + item.link]"
+               [class.active]="item.isActive">
+                <mat-icon mat-list-icon>{{item.icon}}</mat-icon>
+                <h4 mat-line
+                    [class.font-weight-bold]="item.isActive">{{item.text}}</h4>
+            </a>
+            <!-- Budgets -->
+            <ng-container *ngIf="item.text === 'Budgets' && item.isActive">
+                <ng-container *ngIf="financeService.budgets">
+                    <mat-divider></mat-divider>
+                    <mat-list-item *ngFor="let subItem of financeService.budgets | filter: 'isActive' : true | sortBy: 'name'"
+                                   [routerLink]="['/', 'budgets', subItem.name, subItem.id]"
+                                   [ngClass]="subItem.id === financeService.selectedBudget.id ? 'selected' : ''">
+                        {{subItem.name}}
+                    </mat-list-item>
+                </ng-container>
+                <ng-container *ngIf="showArchivedBudgets && financeService.budgets && financeService.budgets.length > 0">
+                    <mat-divider></mat-divider>
+                    <mat-list-item *ngFor="let subItem of financeService.budgets | filter: 'isActive' : false | sortBy: 'name'"
+                                   [routerLink]="['/', 'budgets', subItem.name, subItem.id]"
+                                   [ngClass]="subItem.id === financeService.selectedBudget.id ? 'selected' : ''">
+                        {{subItem.name}}
+                    </mat-list-item>
+                </ng-container>
+                <ng-container *ngIf="financeService.budgets && (financeService.budgets | filter: 'isActive': false).length > 0">
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="sub-item toggle-archive"
+                                   (click)="toggleArchivedBudgets()">
+                        <span *ngIf="showArchivedBudgets">Hide Archived</span>
+                        <span *ngIf="!showArchivedBudgets">Show Archived</span>
+                    </mat-list-item>
+                </ng-container>
+                <mat-divider *ngIf="financeService.budgets !== undefined && financeService.budgets.length > 0"></mat-divider>
+            </ng-container>
+            <!-- Classes -->
+            <ng-container *ngIf="item.text === 'Grades' && item.isActive">
+                <ng-container *ngIf="gradebookService.classes">
+                    <mat-divider></mat-divider>
+                    <mat-list-item *ngFor="let subItem of gradebookService.classes | filter: 'isActive' : true | sortBy: 'name'"
+                                   [routerLink]="['/', 'gradebook', subItem.name, subItem.id]"
+                                   [ngClass]="subItem.id === gradebookService.selectedClass.id ? 'selected' : ''">
+                        {{subItem.name}}
+                    </mat-list-item>
+                </ng-container>
+                <ng-container *ngIf="showArchivedClasses && gradebookService.classes && gradebookService.classes.length > 0">
+                    <mat-divider></mat-divider>
+                    <mat-list-item *ngFor="let subItem of gradebookService.classes | filter: 'isActive' : false | sortBy: 'name'"
+                                   [routerLink]="['/', 'gradebook', subItem.name, subItem.id]"
+                                   [ngClass]="subItem.id === gradebookService.selectedClass.id ? 'selected' : ''">
+                        {{subItem.name}}
+                    </mat-list-item>
+                </ng-container>
+                <ng-container *ngIf="gradebookService.classes && (gradebookService.classes | filter: 'isActive': false).length > 0">
+                    <mat-divider></mat-divider>
+                    <mat-list-item class="sub-item toggle-archive"
+                                   (click)="toggleArchivedClasses()">
+                        <span *ngIf="showArchivedClasses">Hide Archived</span>
+                        <span *ngIf="!showArchivedClasses">Show Archived</span>
+                    </mat-list-item>
+                </ng-container>
+                <mat-divider></mat-divider>
+            </ng-container>
+        </div>
+    </mat-nav-list>
+</div>

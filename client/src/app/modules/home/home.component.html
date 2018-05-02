@@ -1,0 +1,90 @@
+<div class="hero">
+  <img parallax
+       imgAspectRatio="1.5"
+       speed=".7"
+       top="-25"
+       left="50"
+       src="assets/images/abbie-bernet-237683-unsplash.jpg"
+       class="hero-img" />
+  <div parallax
+       speed=".5"
+       top="25"
+       left="50"
+       class="hero-content">
+    <app-logo svgHeight="50px"
+              hexColor="FFFFFF"></app-logo>
+    <h1 class="company-name">Daebit</h1>
+    <div class="text-divider"></div>
+    <p>A Web Developers Playground</p>
+  </div>
+</div>
+<div class="container info">
+  <div class="row my-5">
+    <div class="col-md-6 img-wrapper">
+      <img src="assets/images/finances.png"
+           class="d-block" />
+    </div>
+    <div class="col-md-6 my-auto">
+      <div class="text mb-5">
+        <h1>Budgets</h1>
+        <div class="text-divider"></div>
+        <p>
+          Set a budget for yourself for a whole year with easy to use rules. See your results by day with our graphs and calendar.
+        </p>
+        <a mat-raised-button
+           [routerLink]="['/budgets/about']"
+           color="primary">More Info</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="img-divider">
+  <img parallax
+       imgAspectRatio="1.5"
+       speed=".25"
+       top="0"
+       left="50"
+       src="assets/images/daniel-frank-225183-unsplash.jpg"
+       class="divider-img" />
+</div>
+<div class="container info">
+  <div class="row my-5">
+    <div class="col-md-6 my-auto">
+      <div class="text mb-5">
+        <h1>Gradebooks</h1>
+        <div class="text-divider"></div>
+        <p>
+          Don't wait for your teacher to let you know where you stand in your classes. With Daebit's Gradebook you can easily keep
+          track of your completed assignments, view your up coming ones and calculate your grade.
+        </p>
+        <a mat-raised-button
+           [routerLink]="['/gradebooks/about']"
+           color="primary">More Info</a>
+      </div>
+    </div>
+    <div class="col-md-6 img-wrapper">
+      <img src="assets/images/grades.png"
+           class="d-block" />
+    </div>
+  </div>
+</div>
+<div class="img-divider">
+  <img parallax
+       imgAspectRatio="1.5"
+       speed=".25"
+       top="0"
+       left="50"
+       src="assets/images/alex-iby-371384-unsplash.jpg"
+       class="divider-img" />
+</div>
+<div class="its-free">
+  <div class="container text-center">
+    <h1 class="mb-5">
+      Get access to all
+      <br /> Daebit applications for free
+    </h1>
+    <a mat-raised-button
+       [routerLink]="['/account/register']"
+       color="primary">Sign up</a>
+  </div>
+</div>

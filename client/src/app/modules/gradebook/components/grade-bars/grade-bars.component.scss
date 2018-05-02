@@ -1,0 +1,74 @@
+// Colors for progress bar
+.grade-progress-bar {
+    background-color: #e9ecef!important;
+    height: 25px;
+    position: relative;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    div {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    span {
+        position: absolute;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.bg-a-plus {
+    background-color: #35c754!important;
+}
+
+.bg-a {
+    background-color: #35c754!important;
+}
+
+.bg-a-minus {
+    background-color: #35c754!important;
+}
+
+.bg-b-plus {
+    background-color: #83bb00!important;
+}
+
+.bg-b {
+    background-color: #83bb00!important;
+}
+
+.bg-b-minus {
+    background-color: #83bb00!important;
+}
+
+.bg-c-plus {
+    background-color: #ffa538!important;
+}
+
+.bg-c {
+    background-color: #ffa538!important;
+}
+
+.bg-c-minus {
+    background-color: #ffa538!important;
+}
+
+.bg-d-plus {
+    background-color: #ff6739!important;
+}
+
+.bg-d {
+    background-color: #ff6739!important;
+}
+
+.bg-d-minus {
+    background-color: #ff6739!important;
+}
+
+.bg-f {
+    background-color: #dc3545!important;
+}

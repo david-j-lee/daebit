@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title h4">{{ gradebookService.selectedClass.name }}</h1>
+        <p class="card-text">
+            <span *ngIf="gradebookService.selectedClass.isWeighted"
+                  class="badge badge-secondary">Weighted</span>
+        </p>
+        <table class="table table-condensed">
+            <tbody>
+                <tr>
+                    <td><small>Items</small></td>
+                    <td class="no-wrap text-right">
+                        {{ gradebookService.selectedClass.completed }} / {{ gradebookService.selectedClass.total }}
+                    </td>
+                </tr>
+                <tr>
+                    <td><small>Completed</small></td>
+                    <td class="text-right">
+                        <span *ngIf="gradebookService.selectedClass.completedGrade">
+                            <span class="no-wrap"><small>{{ gradebookService.selectedClass.completedGrade | percent: '1.1-1' }}</small>{{ gradebookService.selectedClass.completedGradeText }}</span>
+                        <br />
+                        <span class="no-wrap">{{ gradebookService.selectedClass.completedEarned }} / {{ gradebookService.selectedClass.completedPossible }}</span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><small>Total</small></td>
+                    <td class="text-right">
+                        <span *ngIf="gradebookService.selectedClass.totalGrade">
+                            <span class="no-wrap"><small>{{ gradebookService.selectedClass.totalGrade | percent: '1.1-1' }}</small>{{ gradebookService.selectedClass.totalGradeText }}</span>
+                        <br />
+                        <span class="no-wrap">{{ gradebookService.selectedClass.totalEarned }} / {{ gradebookService.selectedClass.totalPossible }}</span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

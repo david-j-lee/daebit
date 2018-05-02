@@ -1,0 +1,200 @@
+@import './variables';
+@import './themes';
+@import './unsplash';
+// @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+html,
+body {
+  height: 100%;
+  font-family: 'Dosis', sans-serif;
+  letter-spacing: 2px;
+  margin: 0;
+  padding: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form > * {
+  width: 100%;
+}
+
+input {
+  background: inherit;
+  border: none;
+}
+
+a:hover {
+  color: inherit !important;
+}
+
+// navbar
+
+.company-name,
+.brand {
+  font-weight: bold;
+  font-family: 'Inconsolata', Arial, sans-serif;
+}
+
+.brand {
+  display: flex;
+  .brand-text {
+    margin-left: 1rem;
+    margin-top: 3px;
+    color: #333;
+  }
+}
+
+.target {
+  max-width: 60px !important;
+  text-align: right;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  img {
+    height: 25px;
+    margin-right: 1rem;
+  }
+}
+
+.nav-dropdown {
+  font-size: 20px;
+}
+
+// General
+
+.pointer {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.selected {
+  font-weight: bold;
+}
+
+.sm-icon {
+  font-size: 15px;
+}
+
+.listing-item:hover,
+.listing-item:focus {
+  background-color: rgba(127, 127, 127, 0.05);
+}
+
+// Budgets
+
+.budgets-pie-chart {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  .ng-star-inserted {
+    height: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .budgets-pie-chart {
+    height: 200px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .budgets-pie-chart {
+    height: 150px;
+  }
+}
+
+/* Spacing and sizing helpers */
+.no-wrap {
+  white-space: nowrap;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.all-0 {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.flex-grow-1 {
+  flex-grow: 1 !important;
+}
+
+.flex-grow-2 {
+  flex-grow: 2 !important;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.fill-space {
+  // This fills the remaining space, by using flexbox.
+  // Every toolbar row uses a flexbox row layout.
+  flex: 1 1 auto;
+}
+
+.h-100p {
+  height: 100%;
+}
+
+.h-100vh {
+  height: 100vh;
+}
+
+.w-100p {
+  width: 100%;
+}
+
+/* Bootstrap */
+
+.btn-xs {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.2rem;
+}
+
+/* Material Design */
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+}
+
+a.mat-raised-button,
+a.mat-menu-item {
+  text-decoration: none;
+}
+
+.mat-form-field-infix {
+  width: inherit !important;
+}
+
+.mat-dialog-content {
+  max-height: 100%;
+  width: 400px;
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
+.invalid-feedback {
+  margin-top: inherit;
+  font-size: inherit;
+}
+
+.mat-tab-body-wrapper {
+  flex-grow: 1;
+}
+
+.mat-tab-body-content {
+  display: flex;
+  flex-direction: column;
+}

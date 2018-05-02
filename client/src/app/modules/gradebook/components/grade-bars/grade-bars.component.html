@@ -1,0 +1,31 @@
+<div class="mb-1">
+    <div>Current&nbsp;
+        <b *ngIf="gradebookService.selectedClass.completedGrade !== undefined">
+            {{ gradebookService.selectedClass.completedGrade | percent: '1.1-1' }}
+        </b>
+        <small *ngIf="gradebookService.selectedClass.completedGrade !== undefined">
+            ({{ gradebookService.selectedClass.completedEarned }}/{{ gradebookService.selectedClass.completedPossible }})
+        </small>
+    </div>
+    <div class="grade-progress-bar">
+        <div [ngClass]="gradebookService.selectedClass ? 'bg-' + gradebookService.selectedClass.completedGradeColor : 'bg-na'"
+             [style.width]="gradebookService.selectedClass ? gradebookService.selectedClass.completedGrade * 100 + '%' : '0%'"></div>
+        <span>{{ gradebookService.selectedClass?.completedGradeText }}</span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <div>Total&nbsp;
+        <b *ngIf="gradebookService.selectedClass.totalGrade !== undefined">
+            {{ gradebookService.selectedClass.totalGrade | percent: '1.1-1' }}
+        </b>
+        <small *ngIf="gradebookService.selectedClass.totalGrade !== undefined">
+            ({{ gradebookService.selectedClass.totalEarned }}/{{ gradebookService.selectedClass.totalPossible }})
+        </small>
+    </div>
+    <div class="grade-progress-bar">
+        <div [ngClass]="gradebookService.selectedClass ? 'bg-' + gradebookService.selectedClass.totalGradeColor : 'bg-na'"
+             [style.width]="gradebookService.selectedClass ? gradebookService.selectedClass.totalGrade * 100 + '%' : '0%'"></div>
+        <span>{{ gradebookService.selectedClass?.totalGradeText }}</span>
+    </div>
+</div>

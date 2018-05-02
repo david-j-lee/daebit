@@ -1,0 +1,75 @@
+<mat-toolbar color="primary">
+  <ng-container *ngIf="!financeService.selectedBudget">
+    <button mat-icon-button
+            [routerLink]="['/apps']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="financeService.selectedBudget">
+    <button mat-icon-button
+            [routerLink]="['/budgets']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </ng-container>
+  <span class="nav-item mx-3">
+    <img src="assets/images/finances.png"
+         class="d-block" /> Budgets
+  </span>
+  <ng-container *ngIf="!financeService.selectedBudget">
+    <button mat-icon-button
+            [routerLink]="['/budgets/add']">
+      <mat-icon>add</mat-icon>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="financeService.selectedBudget">
+    <mat-icon>chevron_right</mat-icon>
+    <button mat-button
+            [matMenuTriggerFor]="budgetsMenu">
+      <span *ngIf="financeService.selectedBudget"
+            class="nav-dropdown">
+        {{ financeService.selectedBudget?.name }}
+      </span>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <button mat-icon-button
+            class="primary"
+            [routerLink]="['/budget', financeService.selectedBudget.id, 'edit']">
+      <mat-icon>mode_edit</mat-icon>
+    </button>
+    <button mat-icon-button
+            [routerLink]="['/budget', financeService.selectedBudget.id, 'add']">
+      <mat-icon>add</mat-icon>
+    </button>
+  </ng-container>
+  <span class="fill-space"></span>
+  <app-app-menu></app-app-menu>
+  <app-user-menu></app-user-menu>
+</mat-toolbar>
+
+<mat-menu #budgetsMenu="matMenu"
+          overlapTrigger="false">
+  <ng-container *ngIf="financeService.budgets">
+    <a mat-menu-item
+       *ngFor="let subItem of financeService.budgets | filter: 'isActive' : true | sortBy: 'name'"
+       [routerLink]="['/', 'budget', subItem.id]"
+       [ngClass]="subItem.id === financeService.selectedBudget?.id ? 'selected' : ''">
+      {{subItem.name}}
+    </a>
+  </ng-container>
+
+  <ng-container *ngIf="financeService.budgets && (financeService.budgets | filter: 'isActive': false).length > 0">
+    <div mat-menu-item
+         [matMenuTriggerFor]="subMenu">Archive</div>
+  </ng-container>
+</mat-menu>
+
+<mat-menu #subMenu="matMenu">
+  <ng-container *ngIf="financeService.budgets && financeService.budgets.length > 0">
+    <a mat-menu-item
+       *ngFor="let subItem of financeService.budgets | filter: 'isActive' : false | sortBy: 'name'"
+       [routerLink]="['/', 'budget', subItem.id]"
+       [ngClass]="subItem.id === financeService.selectedBudget?.id ? 'selected' : ''">
+      {{subItem.name}}
+    </a>
+  </ng-container>
+</mat-menu>

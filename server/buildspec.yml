@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Restore started on `date`
+      - pip install --upgrade awscli
+      - set ASPNETCORE_ENVIRONMENT=Production
+      - dotnet restore Daebit.csproj
+  build:
+    commands:
+      - echo Build started on `date`
+      - dotnet publish -c release -o ./build_output Daebit.csproj
+artifacts:
+  files:
+    - build_output/**/*
+    - scripts/**/*
+    - appspec.yml

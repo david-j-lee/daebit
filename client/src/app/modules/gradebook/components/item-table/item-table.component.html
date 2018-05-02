@@ -1,0 +1,113 @@
+<mat-table #table
+           [dataSource]="gradebookService.dataSource">
+
+  <!-- Is Completed Column -->
+  <ng-container matColumnDef="isCompleted">
+    <mat-header-cell *matHeaderCellDef>
+      <i class="material-icons sm-icon">lock</i>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let item">
+      <mat-checkbox [(ngModel)]="item.isCompleted"
+                    color="primary"
+                    (change)="save(item, true)"
+                    #isCompleted="ngModel"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Item Column -->
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef>Item</mat-header-cell>
+    <mat-cell *matCellDef="let item">
+      <mat-form-field>
+        <input matInput
+               [(ngModel)]="item.description"
+               (change)="save(item, false)" />
+      </mat-form-field>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Due Column -->
+  <ng-container matColumnDef="dateDue">
+    <mat-header-cell *matHeaderCellDef>Due</mat-header-cell>
+    <mat-cell *matCellDef="let item">
+      <mat-form-field>
+        <input matInput
+               [(ngModel)]="item.dateDue"
+               [matDatepicker]="picker"
+               (dateInput)="save(item, false)"
+               (dateChange)="save(item, false)">
+        <mat-datepicker-toggle matSuffix
+                               [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Earned Column -->
+  <ng-container matColumnDef="earned">
+    <mat-header-cell *matHeaderCellDef>Earned</mat-header-cell>
+    <mat-cell *matCellDef="let item">
+      <mat-form-field>
+        <input matInput
+               type="number"
+               class="text-right"
+               [(ngModel)]="item.earned"
+               (change)="save(item, true)" />
+      </mat-form-field>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Possible Column -->
+  <ng-container matColumnDef="possible">
+    <mat-header-cell *matHeaderCellDef>Possible</mat-header-cell>
+    <mat-cell *matCellDef="let item">
+      <mat-form-field>
+        <input matInput
+               type="number"
+               class="text-right"
+               [(ngModel)]="item.possible"
+               (change)="save(item, true)" />
+      </mat-form-field>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="weight">
+    <mat-header-cell *matHeaderCellDef>Weight</mat-header-cell>
+    <mat-cell *matCellDef="let item">
+      <mat-form-field>
+        <input matInput
+               type="number"
+               class="text-right"
+               [(ngModel)]="item.weight"
+               (change)="save(item, true)" />
+      </mat-form-field>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Grade Column -->
+  <ng-container matColumnDef="grade">
+    <mat-header-cell *matHeaderCellDef>Grade</mat-header-cell>
+    <mat-cell *matCellDef="let element"
+              class="text-right">{{ element.grade | percent:'1.1-1' }}</mat-cell>
+  </ng-container>
+
+  <!-- Delete Column -->
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef>
+      <i class="material-icons sm-icon">delete_forever</i>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let item">
+      <button (click)="delete(item.id)"
+              [disabled]="item.id === undefined"
+              mat-icon-button>
+        <mat-icon class="md-12"
+                  aria-label="Delete Item">delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="gradebookService.selectedClass?.isWeighted ? gradebookService.weightedColumns : gradebookService.nonWeightedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: gradebookService.selectedClass?.isWeighted ? gradebookService.weightedColumns : gradebookService.nonWeightedColumns;"></mat-row>
+
+</mat-table>

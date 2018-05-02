@@ -1,0 +1,17 @@
+<mat-list *ngIf="financeService.selectedBudget.revenues">
+  <mat-list-item *ngFor="let revenue of financeService.selectedBudget.revenues">
+    <button mat-icon-button
+            [routerLink]="['./revenue', revenue.id, 'edit']"
+            class="mr-2">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <a class="pointer"
+       [routerLink]="['./revenue', revenue.id, 'edit']"
+       class="mr-2">{{revenue.description}}</a>
+    <mat-chip-list>
+      <mat-chip color="primary"
+                selected="true">{{revenue.frequency.substring(0,1)}}</mat-chip>
+    </mat-chip-list>
+    <div class="fill-space text-right">$ {{revenue.amount}}</div>
+  </mat-list-item>
+</mat-list>

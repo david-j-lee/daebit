@@ -1,0 +1,13 @@
+{
+  "name": "daebit-server",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "set ASPNETCORE_ENVIRONMENT=Production && dotnet run",
+    "start:dev": "set ASPNETCORE_ENVIRONMENT=Development && dotnet watch run --urls \"http://*:5000\"",
+    "publish": "git add . && git commit -m \"Publish from cli\" && git push"
+  },
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {}
+}

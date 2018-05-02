@@ -1,0 +1,25 @@
+.mat-toolbar {
+  position: fixed;
+}
+.hero {
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+  background: url('/assets/images/timothy-meinberg-248173-unsplash.jpg') center center;
+  background-size: cover;
+  h1 {
+    font-size: 3rem;
+  }
+  .text-divider {
+    margin: .5rem auto;
+    border-bottom: 3px solid white;
+    width: 125px;
+  }
+  p {
+    font-size: 1.5rem;
+  }
+}

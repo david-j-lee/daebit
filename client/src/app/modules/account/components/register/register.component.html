@@ -1,0 +1,110 @@
+<div class="container pt-5 pb-5">
+  <div class="brand">
+    <app-logo svgHeight="50px"
+              hexColor="333"></app-logo>
+    <div [routerLink]="['/']"
+         class="brand-text pointer">Daebit</div>
+  </div>
+  <h2 class="h4">Register for a free account now</h2>
+  <form (ngSubmit)="register(registerForm)"
+        #registerForm="ngForm"
+        class="pb-3">
+    <mat-form-field>
+      <input matInput
+             id="firstName"
+             name="firstName"
+             placeholder="First Name"
+             type="text"
+             ngModel
+             #firstName="ngModel"
+             required />
+      <mat-error *ngIf="firstName.invalid">
+        First name is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput
+             id="lastName"
+             name="lastName"
+             placeholder="Last Name"
+             type="text"
+             ngModel
+             #lastName="ngModel" />
+      <mat-error *ngIf="lastName.invalid">
+        Last name is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput
+             id="email"
+             name="email"
+             placeholder="Email"
+             type="email"
+             ngModel
+             #email="ngModel"
+             required
+             email="true" />
+      <mat-error *ngIf="email.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="!email.hasError('required') && email.invalid">
+        Please enter a valid email
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput
+             id="password"
+             name="password"
+             placeholder="Password"
+             type="password"
+             ngModel
+             #password="ngModel"
+             required
+             minlength="8"
+             maxlength="50"
+             pattern="(?=.*\d)((?=.*[a-z])|(?=.*[A-Z])).{0,}"
+             validateEqual="confirmPassword"
+             reverse="true" />
+      <mat-error *ngIf="password.hasError('required')">
+        Password is required
+      </mat-error>
+      <mat-error *ngIf="password.hasError('minlength') && !password.hasError('required')">
+        Password must be at least 8 characters
+      </mat-error>
+      <mat-error *ngIf="password.hasError('maxlength') && !password.hasError('required') && !password.hasError('minlength')">
+        Password must be less than 50 characters
+      </mat-error>
+      <mat-error *ngIf="password.hasError('pattern') && !password.hasError('required') && !password.hasError('minlength') && !password.hasError('maxlength')">
+        Password must contain a character and number
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput
+             id="confirmPassword"
+             name="confirmPassword"
+             placeholder="Confirm Password"
+             type="password"
+             ngModel
+             #confirmPassword="ngModel"
+             required
+             validateEqual="password"
+             reverse="false" />
+      <mat-error *ngIf="confirmPassword.valid || (confirmPassword.pristine && !registerForm.submitted)">
+        Password does not match
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="registerForm.invalid || isRequesting">Register</button>
+    <app-spinner [isRunning]="isRequesting"></app-spinner>
+    <div *ngIf="errors"
+         class="alert alert-danger mt-3"
+         role="alert">
+      <strong>Oops!</strong> {{errors}}
+    </div>
+  </form>
+  <p class="mb-0">
+    <a [routerLink]="['/account/login', returnUrl]">I already have an account</a>
+  </p>
+</div>

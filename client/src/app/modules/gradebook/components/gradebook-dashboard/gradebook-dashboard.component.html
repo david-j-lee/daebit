@@ -1,0 +1,10 @@
+<div *ngIf="gradebookService.selectedClass"
+     class="d-flex flex-column flex-grow-1 pt-3">
+  <app-grade-bars class="px-3"></app-grade-bars>
+  <div class="table-responsive flex-grow-1">
+    <div class="px-3">
+      <app-item-table></app-item-table>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

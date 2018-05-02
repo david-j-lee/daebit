@@ -1,0 +1,38 @@
+<div class="site-wrapper mat-drawer-container">
+  <!-- <mat-toolbar class="navbar"
+               color="primary">
+    <mat-toolbar-row>
+      <ul>
+        <li class="nav-item"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link"
+             [routerLink]="['/']">HOME</a>
+        </li>
+        <li class="nav-item"
+            [routerLinkActive]="['active']">
+          <a class="nav-link"
+             [routerLink]="['/account/login']">LOGIN</a>
+        </li>
+        <li class="nav-item"
+            [routerLinkActive]="['active']">
+          <a class="nav-link"
+             [routerLink]="['/account/register']">REGISTER</a>
+        </li>
+      </ul>
+    </mat-toolbar-row>
+  </mat-toolbar> -->
+  <div class="flex-grow-1">
+    <router-outlet></router-outlet>
+  </div>
+  <footer class="footer">
+    <!-- <div>
+      Icons made by
+      <a href="http://dinosoftlabs.com/">Dinosoftlabs</a> from
+      <a href="www.flaticon.com">flaticon</a>
+    </div> -->
+    <div>
+      &copy; {{ year }} Daebit All Rights Reserved
+    </div>
+  </footer>
+</div>

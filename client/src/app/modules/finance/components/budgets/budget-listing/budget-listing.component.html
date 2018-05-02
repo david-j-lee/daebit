@@ -1,0 +1,44 @@
+<div *ngIf="financeService.isLoaded">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h6 class="mt-5 mb-3">Active Budgets</h6>
+      </div>
+      <ng-container *ngIf="financeService.budgets">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3"
+             *ngFor="let subItem of financeService.budgets | filter: 'isActive' : true | sortBy: 'name'">
+          <mat-card class="listing-item"
+                    [routerLink]="['/', 'budget', subItem.id]">
+            <mat-card-header>
+              <mat-card-title>{{subItem.name}}</mat-card-title>
+            </mat-card-header>
+          </mat-card>
+        </div>
+      </ng-container>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div [routerLink]="['/budgets/add']">
+          <mat-card class="listing-item create-new-budget">
+            <mat-card-header>
+              <mat-card-title>Create a new budget</mat-card-title>
+            </mat-card-header>
+          </mat-card>
+        </div>
+      </div>
+      <ng-container *ngIf="financeService.budgets && (financeService.budgets | filter: 'isActive' : false).length > 0">
+        <div class="col-12">
+          <h6 class="mt-5 mb-3">Archived Budgets</h6>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3"
+             *ngFor="let subItem of financeService.budgets | filter: 'isActive' : false | sortBy: 'name'">
+          <mat-card class="listing-item"
+                    [routerLink]="['/', 'budget', subItem.id]">
+            <mat-card-header>
+              <mat-card-title>{{subItem.name}}</mat-card-title>
+            </mat-card-header>
+          </mat-card>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

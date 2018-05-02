@@ -1,0 +1,12 @@
+@import '~sass/_variables.scss';
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.brand-text {
+  font-size: 48pt;
+  font-weight: bold;
+  font-family: 'Inconsolata', Arial, sans-serif;
+}

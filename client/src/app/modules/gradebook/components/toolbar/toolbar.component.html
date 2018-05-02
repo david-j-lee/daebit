@@ -1,0 +1,99 @@
+<mat-toolbar color="primary">
+  <ng-container *ngIf="!gradebookService.selectedClass">
+    <button mat-icon-button
+            class="primary"
+            [routerLink]="['/apps']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="gradebookService.selectedClass">
+    <button mat-icon-button
+            class="primary"
+            [routerLink]="['/gradebooks']">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </ng-container>
+  <span class="nav-item mx-3">
+    <img src="assets/images/grades.png"
+         class="d-block" /> Gradebooks
+  </span>
+  <ng-container *ngIf="!gradebookService.selectedClass">
+    <button mat-icon-button
+            [routerLink]="['/gradebooks/add']">
+      <mat-icon>add</mat-icon>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="gradebookService.selectedClass">
+    <mat-icon>chevron_right</mat-icon>
+    <button mat-button
+            [matMenuTriggerFor]="classesMenu">
+      <span *ngIf="gradebookService.selectedClass"
+            class="nav-dropdown">
+        {{ gradebookService.selectedClass.name }}
+      </span>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <button *ngIf="gradebookService.selectedClass"
+            mat-icon-button
+            class="primary"
+            [routerLink]="['/gradebook', gradebookService.selectedClass.id, 'edit']">
+      <mat-icon>mode_edit</mat-icon>
+    </button>
+    <button mat-icon-button
+            class="primary"
+            [routerLink]="['/gradebook', gradebookService.selectedClass.id, 'add']">
+      <mat-icon>add</mat-icon>
+    </button>
+  </ng-container>
+  <span class="fill-space"></span>
+  <ng-container *ngIf="gradebookService.selectedClass">
+    <button mat-button
+            class="primary"
+            (click)="average()">Average</button>
+    <button mat-icon-button
+            class="primary"
+            (click)="onGoalChanged(90)">A</button>
+    <button mat-icon-button
+            class="primary"
+            (click)="onGoalChanged(80)">B</button>
+    <button mat-icon-button
+            class="primary"
+            (click)="onGoalChanged(70)">C</button>
+    <input matInput
+           type="number"
+           class="target text-right"
+           placeholder="Goal"
+           [ngModel]="goal"
+           (ngModelChange)="onGoalChanged($event)" />
+  </ng-container>
+  <app-app-menu></app-app-menu>
+  <app-user-menu></app-user-menu>
+</mat-toolbar>
+
+
+<mat-menu #classesMenu="matMenu"
+          overlapTrigger="false">
+  <ng-container *ngIf="gradebookService.classes">
+    <a mat-menu-item
+       *ngFor="let subItem of gradebookService.classes | filter: 'isActive' : true | sortBy: 'name'"
+       [routerLink]="['/', 'gradebook', subItem.id]"
+       [ngClass]="subItem.id === gradebookService.selectedClass?.id ? 'selected' : ''">
+      {{subItem.name}}
+    </a>
+  </ng-container>
+  <ng-container *ngIf="gradebookService.classes && (gradebookService.classes | filter: 'isActive': false).length > 0">
+    <div mat-menu-item
+         [matMenuTriggerFor]="subMenu">Archive</div>
+  </ng-container>
+</mat-menu>
+
+<mat-menu #subMenu="matMenu">
+  <ng-container *ngIf="gradebookService.classes && gradebookService.classes.length > 0">
+    <a mat-menu-item
+       *ngFor="let subItem of gradebookService.classes | filter: 'isActive' : false | sortBy: 'name'"
+       [routerLink]="['/', 'gradebook', subItem.id]"
+       [ngClass]="subItem.id === gradebookService.selectedClass?.id ? 'selected' : ''">
+      {{subItem.name}}
+    </a>
+  </ng-container>
+</mat-menu>

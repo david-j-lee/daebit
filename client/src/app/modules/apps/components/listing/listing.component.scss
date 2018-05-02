@@ -1,0 +1,25 @@
+.applications {
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+    url('/assets/images/carolina-bonito-321678-unsplash.jpg') no-repeat center
+      bottom;
+  background-size: cover;
+  padding: 125px;
+  text-align: center;
+  color: white;
+}
+.text-divider {
+  border-bottom: 3px solid white;
+  width: 50px;
+  margin: .5rem auto;
+}
+.container {
+  max-width: 750px;
+  padding-top: 2rem;
+}
+.card {
+  background-color: rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}

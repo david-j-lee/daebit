@@ -1,0 +1,129 @@
+<form *ngIf="myRevenue"
+      (ngSubmit)="create(form)"
+      #form="ngForm">
+  <h4 mat-dialog-title>Add Revenue</h4>
+  <div mat-dialog-content>
+    <div class="my-2">
+      <mat-form-field hintLabel="Max 20 characters">
+        <input matInput
+               placeholder="Description"
+               [(ngModel)]="myRevenue.description"
+               id="description"
+               name="description"
+               #description="ngModel"
+               required
+               pattern='([a-zA-Z0-9 ])+'
+               maxlength="20">
+        <mat-hint align="end">{{description.value?.length || 0}}/20</mat-hint>
+        <mat-error *ngIf="description.hasError('required')">Required</mat-error>
+        <mat-error *ngIf="description.invalid && !description.hasError('required')">
+          Description is not valid</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="my-2">
+      <mat-form-field>
+        <input matInput
+               type="number"
+               class="text-right"
+               placeholder="Amount"
+               [(ngModel)]="myRevenue.amount"
+               id="amount"
+               name="amount"
+               #amount="ngModel"
+               required>
+        <mat-error *ngIf="amount.hasError('required')">Required</mat-error>
+        <mat-error *ngIf="amount.invalid && !amount.hasError('required')">
+          Amount is not valid</mat-error>
+      </mat-form-field>
+    </div>
+    <h2 class="h4 my-2">Frequency</h2>
+    <div class="my-2">
+      <mat-form-field>
+        <mat-select placeholder="Frequency"
+                    required
+                    #frequency="ngModel"
+                    [(ngModel)]="myRevenue.frequency"
+                    name="frequency">
+          <mat-option *ngFor="let frequency of financeService.frequencies"
+                      [value]="frequency">{{frequency}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="frequency.hasError('required')">Required</mat-error>
+      </mat-form-field>
+    </div>
+    <div *ngIf="myRevenue.frequency === 'Weekly' || myRevenue.frequency === 'Bi-Weekly'"
+         class="d-flex flex-column my-2">
+      <mat-checkbox [(ngModel)]="myRevenue.repeatSun"
+                    name="repeatMon"
+                    color="primary">Sun</mat-checkbox>
+      <mat-checkbox [(ngModel)]="myRevenue.repeatMon"
+                    name="repeatMon"
+                    color="primary">Mon</mat-checkbox>
+      <mat-checkbox [(ngModel)]="myRevenue.repeatTue"
+                    name="repeatTue"
+                    color="primary">Tue</mat-checkbox>
+      <mat-checkbox [(ngModel)]="myRevenue.repeatWed"
+                    name="repeatWed"
+                    color="primary">Wed</mat-checkbox>
+      <mat-checkbox [(ngModel)]="myRevenue.repeatThu"
+                    name="repeatThu"
+                    color="primary">Thu</mat-checkbox>
+      <mat-checkbox [(ngModel)]="myRevenue.repeatFri"
+                    name="repeatFri"
+                    color="primary">Fri</mat-checkbox>
+      <mat-checkbox [(ngModel)]="myRevenue.repeatSat"
+                    name="repeatSat"
+                    color="primary">Sat</mat-checkbox>
+    </div>
+    <h2 class="h4 my-2">Time Span</h2>
+    <div class="my-2">
+      <mat-checkbox [(ngModel)]="myRevenue.isForever"
+                    name="isForever"
+                    color="primary">Is Forever</mat-checkbox>
+    </div>
+    <div *ngIf="!myRevenue.isForever || (myRevenue.frequency === 'Once' || myRevenue.frequency === 'Monthly' || myRevenue.frequency === 'Yearly')"
+
+         class="my-2">
+      <mat-form-field>
+        <input matInput
+               #startDate="ngModel"
+               name="startDate"
+               placeholder="Start Date"
+               [(ngModel)]="myRevenue.startDate"
+               [matDatepicker]="startDatePicker">
+        <mat-datepicker-toggle matSuffix
+                               [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+        <mat-error *ngIf="startDate.invalid">Date is not valid</mat-error>
+      </mat-form-field>
+    </div>
+    <div *ngIf="!myRevenue.isForever"
+         class="my-2">
+      <mat-form-field>
+        <input matInput
+               #endDate="ngModel"
+               name="endDate"
+               placeholder="End Date"
+               [(ngModel)]="myRevenue.endDate"
+               [matDatepicker]="endDatePicker">
+        <mat-datepicker-toggle matSuffix
+                               [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+        <mat-error *ngIf="endDate.invalid">Date is not valid</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button
+            [mat-dialog-close]>Close</button>
+    <button type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="form.invalid || isRequesting">Save</button>
+  </div>
+  <div *ngIf="errors"
+       class="alert alert-danger mb-0 mt-5"
+       role="alert">
+    <strong>Oops!</strong> {{ errors }}
+  </div>
+  <app-spinner [isRunning]="isRequesting"></app-spinner>
+</form>

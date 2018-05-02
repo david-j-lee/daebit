@@ -1,0 +1,32 @@
+@import '~@angular/material/theming';
+@import './_mixins';
+
+@include mat-core();
+
+// Default Theme
+$default-primary: mat-palette($mat-blue-grey);
+$default-accent: mat-palette($mat-grey, A200, A100, A400);
+$default-warn: mat-palette($mat-deep-orange);
+$default-theme: mat-light-theme($default-primary, $default-accent, $default-warn);
+@include theme-color-grabber($default-theme);
+@include angular-material-theme($default-theme);
+
+// Define an alternate dark theme.
+$hello-kitty-primary: mat-palette($mat-pink);
+$hello-kitty-accent: mat-palette($mat-red, A200, A100, A400);
+$hello-kitty-warn: mat-palette($mat-deep-orange);
+$hello-kitty-theme: mat-dark-theme($hello-kitty-primary, $hello-kitty-accent, $hello-kitty-warn);
+.hello-kitty {
+    @include theme-color-grabber($hello-kitty-theme);
+    @include angular-material-theme($hello-kitty-theme);
+}
+
+// Define an alternate dark theme.
+$batman-primary: mat-palette($mat-grey);
+$batman-accent: mat-palette($mat-amber, A200, A100, A400);
+$batman-warn: mat-palette($mat-deep-orange);
+$batman-theme: mat-dark-theme($batman-primary, $batman-accent, $batman-warn);
+.batman {
+    @include theme-color-grabber($batman-theme);
+    @include angular-material-theme($batman-theme);
+}

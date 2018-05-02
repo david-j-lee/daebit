@@ -1,0 +1,59 @@
+<div class="container pt-5 pb-5">
+  <div class="brand">
+    <app-logo svgHeight="50px"
+              hexColor="333"></app-logo>
+    <div [routerLink]="['/']"
+         class="brand-text pointer">Daebit</div>
+  </div>
+  <h2 class="h4">Log into your account</h2>
+  <form (ngSubmit)="login(loginForm)"
+        #loginForm="ngForm"
+        class="pb-3">
+    <mat-form-field>
+      <input matInput
+             id="email"
+             name="email"
+             placeholder="Email"
+             type="text"
+             ngModel
+             #email="ngModel"
+             required
+             email="true" />
+      <mat-error *ngIf="email.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="!email.hasError('required') && email.invalid">
+        Please enter a valid email
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput
+             id="password"
+             name="password"
+             placeholder="Password"
+             type="password"
+             ngModel
+             #password="ngModel"
+             required />
+      <mat-error *ngIf="password.invalid">
+        Password is required
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="loginForm.invalid || isRequesting">Login</button>
+    <app-spinner [isRunning]="isRequesting"></app-spinner>
+    <div *ngIf="errors"
+         class="alert alert-danger mt-3"
+         role="alert">
+      <strong>Oops!</strong> {{ errors }}
+    </div>
+  </form>
+  <p>
+    <a [routerLink]="['/account/register', returnUrl]">Sign me up</a>
+  </p>
+  <p class="mb-0">
+    <a [routerLink]="['/account/forgot-password']">Forgot my password</a>
+  </p>
+</div>

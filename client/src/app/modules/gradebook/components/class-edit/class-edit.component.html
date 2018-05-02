@@ -1,0 +1,62 @@
+<form *ngIf="newClass"
+      (ngSubmit)="edit(form)"
+      #form="ngForm">
+  <h4 mat-dialog-title>Edit Class</h4>
+  <div mat-dialog-content>
+    <div>
+      <mat-form-field hintLabel="Max 10 characters">
+        <input matInput
+               [(ngModel)]="newClass.name"
+               id="name"
+               name="name"
+               #name="ngModel"
+               placeholder="Name"
+               required
+               pattern='([a-zA-Z0-9 ])+'
+               maxlength="10" />
+        <mat-hint align="end">{{name.value?.length || 0}}/10</mat-hint>
+        <mat-error *ngIf="name.hasError('required')">
+          Required
+        </mat-error>
+        <mat-error *ngIf="!name.hasError('required') && name.invalid">
+          Name is not valid
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="mt-3">
+      <mat-checkbox [(ngModel)]="newClass.isWeighted"
+                    color="primary"
+                    id="isWeighted"
+                    name="isWeighted"
+                    #isWeighted="ngModel">Weighted</mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox [(ngModel)]="newClass.isActive"
+                    color="primary"
+                    id="isActive"
+                    name="isActive"
+                    #isActive="ngModel">Active</mat-checkbox>
+    </div>
+    <div class="my-3">
+      <button type="button"
+              mat-raised-button
+              color="warn"
+              (click)="requestDelete()"
+              [disabled]="form.invalid || isRequesting">Delete</button>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button
+            [mat-dialog-close]>Close</button>
+    <button type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="form.invalid || isRequesting">Save</button>
+  </div>
+  <div *ngIf="errors"
+       class="alert alert-danger mb-0 mt-5"
+       role="alert">
+    <strong>Oops!</strong> {{ errors }}
+  </div>
+  <app-spinner [isRunning]="isRequesting"></app-spinner>
+</form>

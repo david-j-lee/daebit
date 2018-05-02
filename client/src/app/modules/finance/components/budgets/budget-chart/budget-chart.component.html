@@ -1,0 +1,11 @@
+<h1 class="h4 text-center">Daily Finances</h1>
+<div class="chart-wrapper flex-grow-1">
+    <div *ngIf="chartService.chartBudget">
+        <canvas baseChart
+                [options]="chartService.chartBudget.options"
+                [colors]="chartService.chartBudget.colors"
+                [datasets]="chartService.chartBudget.datasets"
+                [labels]="chartService.chartBudget.labels"
+                [chartType]="chartService.chartBudget.chartType"></canvas>
+    </div>
+</div>

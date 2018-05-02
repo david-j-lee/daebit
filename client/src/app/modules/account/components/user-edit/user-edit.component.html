@@ -1,0 +1,89 @@
+<div class="container mt-3">
+    <form *ngIf="user"
+          (ngSubmit)="edit(form)"
+          #form="ngForm">
+        <div class="row mt-5">
+            <div class="col-md-4 order-1 order-md-2">
+                <h2 class="h3">How to fill out this form</h2>
+                <p>
+                    Fill out the form to the left with information of an entity. This is typically used to represent a site, plant, location or subdivision within your organization. If you only have one, input the same data from the company setup.
+                </p>
+                <button mat-raised-button
+                        color="accent"
+                        type="button"
+                        (click)="help()">More Info</button>
+            </div>
+
+            <div class="col-md-8 order-2 order-md-1 form-content">
+                <h1 class="h2">Edit Your Account</h1>
+                <hr />
+
+                <mat-form-field>
+                    <input matInput
+                           type="text"
+                           [(ngModel)]="user.firstName"
+                           id="firstName"
+                           name="firstName"
+                           #firstName="ngModel"
+                           placeholder="First Name"
+                           required />
+                    <mat-error *ngIf="firstName.hasError('required')">
+                        First name is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput
+                           type="text"
+                           [(ngModel)]="user.lastName"
+                           id="lastName"
+                           name="lastName"
+                           #lastName="ngModel"
+                           required
+                           placeholder="Last Name" />
+                    <mat-error *ngIf="lastName.hasError('required')">
+                        Last name is required
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="my-5">
+                    <h2 class="h4">Themes</h2>
+                    <mat-list>
+                        <mat-list-item *ngFor="let theme of themeService.themes">
+                            <div (click)="selectTheme(theme)"
+                                 class="theme-preview">
+                                <div [ngClass]="theme.class + ' primary-bg left'"></div>
+                                <div [ngClass]="theme.class + ' accent-bg right'"></div>
+                                <div [class]="theme === themeService.selectedTheme ? 'font-weight-bold' : ''">{{ theme.name }}</div>
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+
+                <div>
+                    <a mat-raised-button
+                       color="accent"
+                       [routerLink]="['change-password']">Change Password</a>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-end btn-group-responsive mt-3 mb-3">
+            <div class="col-12 col-md-auto order-1 order-md-2">
+                <button mat-raised-button
+                        type="submit"
+                        color="primary"
+                        [disabled]="form.invalid || isRequesting">Save</button>
+                <app-spinner [isRunning]="isRequesting"></app-spinner>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div *ngIf="errors"
+                     class="alert alert-danger"
+                     role="alert">
+                    <strong>Oops!</strong> {{ errors }}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

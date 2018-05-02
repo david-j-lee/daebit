@@ -1,0 +1,28 @@
+.form-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.theme-preview {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+.left,
+.right {
+    height: 15px * 2;
+    width: 15px;
+}
+
+.left {
+    border-bottom-left-radius: 15px * 2;
+    border-top-left-radius: 15px * 2;
+}
+
+.right {
+    border-bottom-right-radius: 15px * 2;
+    border-top-right-radius: 15px * 2;
+    margin-right: 15px;
+}

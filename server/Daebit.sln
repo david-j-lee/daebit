@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Daebit", "Daebit.csproj", "{BB6BFE08-E30F-4079-BAFE-49242D6CF058}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB6BFE08-E30F-4079-BAFE-49242D6CF058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB6BFE08-E30F-4079-BAFE-49242D6CF058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB6BFE08-E30F-4079-BAFE-49242D6CF058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB6BFE08-E30F-4079-BAFE-49242D6CF058}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE991A40-E3AC-466B-A4F0-99263F90AC74}
+	EndGlobalSection
+EndGlobal

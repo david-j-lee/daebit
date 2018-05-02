@@ -1,0 +1,17 @@
+<h4 mat-dialog-title>Delete Revenue</h4>
+<div mat-dialog-content>
+  <p>Are you sure you wish to delete this revenue?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button
+          [mat-dialog-close]>Cancel</button>
+  <button mat-raised-button
+          color="warn"
+          (click)="delete()">Delete</button>
+</div>
+<div *ngIf="errors"
+     class="alert alert-danger mb-0 mt-5"
+     role="alert">
+  <strong>Oops!</strong> {{ errors }}
+</div>
+<app-spinner [isRunning]="isRequesting"></app-spinner>

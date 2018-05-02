@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [{
+        "taskName": "build",
+        "command": "dotnet",
+        "type": "process",
+        "args": [
+            "build",
+            "${workspaceFolder}/server/Daebit.csproj"
+        ],
+        "problemMatcher": "$msCompile"
+    }, {
+        "label": "publish",
+        "type": "shell",
+        "command": "dotnet publish",
+        "presentation": {
+            "reveal": "always"
+        },
+        "problemMatcher": "$msCompile"
+    }, {
+        "label": "tslint",
+        "type": "npm",
+        "script": "lint",
+        "problemMatcher": {
+            "base": "$tslint5",
+            "fileLocation": "relative"
+        }
+    }]
+}

@@ -1,0 +1,15 @@
+<div class="wrapper">
+  <app-toolbar></app-toolbar>
+  <!-- <div *ngIf="gradebookService.isLoaded && gradebookService.classes.length === 0">
+    <app-getting-started></app-getting-started>
+  </div> -->
+  <ng-container *ngIf="gradebookService.isLoaded">
+    <router-outlet></router-outlet>
+  </ng-container>
+  <div *ngIf="!gradebookService.isLoaded"
+       class="mx-auto my-auto">
+    <mat-progress-spinner color="primary"
+                          mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+</div>

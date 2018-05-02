@@ -1,0 +1,39 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "outDir": "./dist/out-tsc",
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "target": "es5",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es2017",
+            "dom"
+        ],
+        "baseUrl": "./src/",
+        "paths": {
+            "app/*": ["app/*"],
+            "apps/*": ["app/modules/apps/*"],
+            "assets/*": ["app/assets/*"],
+            "account/*": ["app/modules/account/*"],
+            "core/*": ["app/core/*"],
+            "dashboard/*": ["app/modules/dashboard/*"],
+            "finance/*": ["app/modules/finance/*"],
+            "gradebook/*": ["app/modules/gradebook/*"],
+            "home/*": ["app/modules/home/*"],
+            "material/*": ["app/modules/material/*"],
+            "modules/*": ["app/modules/*"],
+            "ui/*": ["app/modules/ui/*"]
+        }
+    }
+    // ,
+    // "angularCompilerOptions": {
+    //     "fullTemplateTypeCheck": true,
+    //     "preserveWhiteSpace": false,
+    // }
+}

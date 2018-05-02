@@ -1,0 +1,15 @@
+<div class="wrapper">
+  <app-toolbar></app-toolbar>
+  <!-- <ng-container *ngIf="financeService.isLoaded && financeService.budgets.length === 0 ">
+    <app-getting-started></app-getting-started>
+  </ng-container> -->
+  <ng-container *ngIf="financeService.isLoaded">
+    <router-outlet></router-outlet>
+  </ng-container>
+  <div *ngIf="!financeService.isLoaded"
+       class="mx-auto my-auto">
+    <mat-progress-spinner color="primary"
+                          mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
+</div>

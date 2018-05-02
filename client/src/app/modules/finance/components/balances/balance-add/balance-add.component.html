@@ -1,0 +1,60 @@
+<form *ngIf="myBalance"
+      (ngSubmit)="create(form)"
+      #form="ngForm">
+  <h4 mat-dialog-title>Add Balance</h4>
+  <div mat-dialog-content>
+    <div class="my-2">
+      <mat-form-field hintLabel="Max 10 characters">
+        <input matInput
+               placeholder="Description"
+               [(ngModel)]="myBalance.description"
+               id="description"
+               name="description"
+               #description="ngModel"
+               required
+               pattern='([a-zA-Z0-9 ])+'
+               maxlength="10">
+        <mat-hint align="end">{{description.value?.length || 0}}/10</mat-hint>
+        <mat-error *ngIf="description.hasError('required')">
+          Required
+        </mat-error>
+        <mat-error *ngIf="description.invalid && !description.hasError('required')">
+          Description is not valid
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="my-2">
+      <mat-form-field>
+        <input matInput
+               type="number"
+               class="text-right"
+               placeholder="Amount"
+               [(ngModel)]="myBalance.amount"
+               id="amount"
+               name="amount"
+               #amount="ngModel"
+               required>
+        <mat-error *ngIf="amount.hasError('required')">
+          Required
+        </mat-error>
+        <mat-error *ngIf="amount.invalid && !amount.hasError('required')">
+          Amount is not valid
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button
+            [mat-dialog-close]>Close</button>
+    <button type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="form.invalid || isRequesting">Save</button>
+  </div>
+  <div *ngIf="errors"
+       class="alert alert-danger mb-0 mt-5"
+       role="alert">
+    <strong>Oops!</strong> {{ errors }}
+  </div>
+  <app-spinner [isRunning]="isRequesting"></app-spinner>
+</form>

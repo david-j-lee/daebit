@@ -1,0 +1,44 @@
+<div class="applications">
+  <app-logo svgHeight="50px"
+            hexColor="FFFFFF"></app-logo>
+  <h1 class="company-name">
+    <span class="pointer"
+          [routerLink]="['/']">Daebit</span>
+  </h1>
+  <div class="text-divider"></div>
+  <h2>Applications</h2>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card"
+           [routerLink]="['/budgets']">
+        <div class="card-body">
+          <h2 class="card-title">
+            <span class="nav-item">
+              <img src="assets/images/finances.png"
+                   class="d-block" /> Budgets
+            </span>
+          </h2>
+          <p class="card-text">Forecast your finances and set budgets</p>
+          <div class="badge badge-primary">v0.0.1</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card"
+           [routerLink]="['/gradebooks']">
+        <div class="card-body">
+          <h2 class="card-title">
+            <span class="nav-item">
+              <img src="assets/images/grades.png"
+                   class="d-block" /> Gradebooks
+            </span>
+          </h2>
+          <p class="card-text">Manage your grades for your classes</p>
+          <div class="badge badge-success">v0.0.1</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

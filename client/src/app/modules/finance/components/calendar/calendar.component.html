@@ -1,0 +1,70 @@
+<div class="wrapper d-flex flex-column h-100p">
+    <div class="py-1">
+        <button mat-icon-button
+                color="primary"
+                (click)="calendarService.prev()">
+                <mat-icon aria-label="Previous">chevron_left</mat-icon></button>
+        <button mat-icon-button
+                color="primary"
+                (click)="calendarService.next()">
+                        <mat-icon aria-label="Next">chevron_right</mat-icon></button>
+        <span>{{calendarService.currentMonthText}} {{calendarService.currentYear}}</span>
+    </div>
+    <div class="day-headers">
+        <div class="day-header">Sun</div>
+        <div class="day-header">Mon</div>
+        <div class="day-header">Tue</div>
+        <div class="day-header">Wed</div>
+        <div class="day-header">Thu</div>
+        <div class="day-header">Fri</div>
+        <div class="day-header">Sat</div>
+    </div>
+    <div class="flex-grow-1 d-flex flex-column overflow-auto mb-3">
+        <div *ngIf="calendarService.days"
+             class="calendar flex-grow-1">
+            <div *ngFor="let day of calendarService.days; let first = first;"
+                 [ngClass]="day.date.format('L') == today.format('L') ? 'today' : day.date.month() + 1 !== calendarService.currentMonth ? 'out-of-period' : ''"
+                 class="day">
+                <div *ngIf="day.date.month() + 1 !== calendarService.currentMonth"
+                     class="overlay"></div>
+                <div class="date mt-1 ml-1">
+                    <span *ngIf="day.date.date() == 1 || first">{{day.date | date:'MMM'}} </span>
+                    <span>{{day.date | date: 'd' }}</span>
+                </div>
+                <div class="items">
+                    <div *ngIf="day.totalBalance !== 0"
+                         class="balances px-2">
+                        <div *ngFor="let dailyBalance of day.dailyBalances"
+                             class="d-flex">
+                            <small class="text-left">{{dailyBalance.balance.description}}</small>
+                            <span class="fill-space text-right">{{dailyBalance.amount}}</span>
+                        </div>
+                    </div>
+                    <div *ngIf="day.totalRevenue !== 0"
+                         class="revenues px-2">
+                        <div *ngFor="let dailyRevenue of day.dailyRevenues"
+                             class="d-flex">
+                            <small class="text-left">{{dailyRevenue.revenue.description}}</small>
+                            <span class="fill-space text-right">
+                                <span class="positive">+</span> {{dailyRevenue.amount}}</span>
+                        </div>
+                    </div>
+                    <div *ngIf="day.totalExpense !== 0"
+                         class="expenses px-2">
+                        <div *ngFor="let dailyExpense of day.dailyExpenses"
+                             class="d-flex">
+                            <small class="text-left">{{dailyExpense.expense.description}}</small>
+                            <span class="fill-space text-right">
+                                <span class="negative">-</span> {{dailyExpense.amount}}</span>
+                        </div>
+                        <!-- <span>- {{day.totalExpense | number: '1.0'}}</span> -->
+                    </div>
+                    <div class="balance text-right pb-2 pr-2">
+                        <span>{{day.balance | number: '1.0'}}</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

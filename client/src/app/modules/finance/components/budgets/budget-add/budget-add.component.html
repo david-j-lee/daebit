@@ -1,0 +1,55 @@
+<form *ngIf="myBudget"
+      (ngSubmit)="create(form)"
+      #form="ngForm">
+  <h4 mat-dialog-title>Add Budget</h4>
+  <div mat-dialog-content>
+    <div>
+      <mat-form-field hintLabel="Max 10 characters">
+        <input matInput
+               placeholder="Name"
+               [(ngModel)]="myBudget.name"
+               id="name"
+               name="name"
+               #name="ngModel"
+               required
+               pattern='([a-zA-Z0-9 ])+'
+               maxlength="10">
+        <mat-hint align="end">{{name.value?.length || 0}}/10</mat-hint>
+        <mat-error *ngIf="name.hasError('required')">
+          Required
+        </mat-error>
+        <mat-error *ngIf="name.invalid && !name.hasError('required')">
+          Name is not valid
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <input matInput
+               #startDate="ngModel"
+               name="startDate"
+               placeholder="Date"
+               [(ngModel)]="myBudget.startDate"
+               [matDatepicker]="startDatePicker">
+        <mat-datepicker-toggle matSuffix
+                               [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+        <mat-error *ngIf="startDate.invalid">Date is not valid</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button
+            [mat-dialog-close]>Close</button>
+    <button type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="form.invalid || isRequesting">Save</button>
+  </div>
+  <div *ngIf="errors"
+       class="alert alert-danger mb-0 mt-5"
+       role="alert">
+    <strong>Oops!</strong> {{ errors }}
+  </div>
+  <app-spinner [isRunning]="isRequesting"></app-spinner>
+</form>
