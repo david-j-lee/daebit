@@ -3,8 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:62228/",
-      "sslPort": 0
+      "applicationUrl": "http://localhost:5000/"
     }
   },
   "profiles": {
@@ -15,8 +14,26 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Daebit": {
-      "commandName": "Project"
+    "Development": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Staging": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      }
+    },
+    "Production": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      }
     }
   }
 }
