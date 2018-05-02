@@ -42,8 +42,6 @@ server
 |       |-- ViewModels
 |       |-- Model.cs
 |       `-- Controller.cs
-|-- Properties
-|   `-- launchSettings.json
 |-- Shared
 |   |-- Enums
 |   |-- Helpers

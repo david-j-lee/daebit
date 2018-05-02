@@ -43,7 +43,8 @@ To restore the client project run the following from the root directory
 
 ## Running the Project
 
-After restoring the libraries run `npm run start:dev` for the development or `npm run start` for production.
+After restoring the libraries run `npm run start:dev` for the development or `npm run start` for production. This npm script expects to be run on `cmd`.
+
 
 ~~In the file located in the path `client/src/app/core/services/config.service.ts` you must set the url of the WebAPI server.~~
 
