@@ -86,7 +86,7 @@ export class GradebookCalcService {
         }
       });
     }
-    return value;
+    return Math.round(value * 10) / 10;
   }
 
   getTotalPossible(selectedClass: Class): number {
