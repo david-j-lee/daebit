@@ -9,10 +9,8 @@ import {
 } from '@angular/material';
 import * as moment from 'moment';
 
-import { AccountService } from 'account/services/account.service';
 import { FinanceService } from 'finance/services/finance.service';
-import { SnapshotService } from 'finance/services/api/snapshot.service';
-import { ChartService } from 'finance/services/chart.service';
+import { DalSnapshotService } from 'finance/services/dal/dal.snapshot.service';
 
 import { Snapshot } from 'finance/interfaces/snapshots/snapshot.interface';
 import { SnapshotAdd } from 'finance/interfaces/snapshots/snapshot-add.interface';
@@ -62,11 +60,9 @@ export class SnapshotTableDialogComponent implements OnInit {
   isRequesting: boolean;
 
   constructor(
-    private userService: AccountService,
     private financeService: FinanceService,
     private dailyService: DailyService,
-    private chartService: ChartService,
-    private snapshotService: SnapshotService,
+    private dalSnapshotService: DalSnapshotService,
     private matSnackBar: MatSnackBar,
     public matDialogRef: MatDialogRef<SnapshotTableDialogComponent>
   ) {}
@@ -98,66 +94,13 @@ export class SnapshotTableDialogComponent implements OnInit {
   update() {
     this.isRequesting = true;
 
-    // calculate balances
-    const newAddSnapshot = {
-      date: this.addSnapshot.date.format('L'),
-      estimatedBalance: this.dailyService.todaysEstimatedBalance,
-      actualBalance: this.balances
-        .filter(x => x.id !== undefined)
-        .reduce((sum, item) => sum + item.amount, 0)
-    };
-
-    // wrap it all up
-    const snapshotAddAll: SnapshotAddAll = {
-      budgetId: this.financeService.selectedBudget.id,
-      snapshot: newAddSnapshot,
-      snapshotBalances: this.balances.filter(x => x.id !== undefined)
-    };
-
     // send to db
-    this.snapshotService
-      .save(snapshotAddAll)
+    this.dalSnapshotService
+      .save(this.addSnapshot, this.balances)
       .finally(() => (this.isRequesting = false))
       .subscribe(result => {
-        if (result) {
-          // add snapshot to local data
-          const snapshot: Snapshot = {
-            id: result.snapshotId,
-            date: this.addSnapshot.date,
-            estimatedBalance: newAddSnapshot.estimatedBalance,
-            actualBalance: newAddSnapshot.actualBalance,
-            balanceDifference:
-              newAddSnapshot.estimatedBalance - newAddSnapshot.actualBalance
-          };
-          this.financeService.selectedBudget.snapshots.unshift(snapshot);
-
-          // update balances in local data
-          let newBalanceIndex = 0;
-          const balances: Balance[] = [];
-          this.balances.filter(x => x.id !== undefined).forEach(balance => {
-            let balanceId = 0;
-            if (balance.id === 0) {
-              balanceId = result.balanceIds[newBalanceIndex];
-              newBalanceIndex++;
-            }
-            const newBalance: Balance = {
-              id: balanceId,
-              description: balance.description,
-              amount: balance.amount
-            };
-            balances.push(newBalance);
-          });
-          this.financeService.selectedBudget.balances = balances;
-
-          this.matDialogRef.close();
-          this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
-
-          this.dailyService.generateDailyBudget();
-          this.chartService.setChartBalance();
-          this.chartService.setChartExpense();
-          this.chartService.setChartRevenue();
-          this.chartService.setChartBudget();
-        }
+        this.matDialogRef.close();
+        this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
       });
   }
 

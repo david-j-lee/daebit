@@ -9,7 +9,7 @@ import { MatDialogRef, MatSnackBar, MatDialog } from '@angular/material';
 
 import { AccountService } from 'account/services/account.service';
 import { GradebookService } from 'gradebook/services/gradebook.service';
-import { ClassService } from 'gradebook/services/api/class.service';
+import { DalClassService } from 'gradebook/services/dal/dal.class.service';
 
 import { Class } from 'gradebook/interfaces/class.interface';
 import { ClassAdd } from 'gradebook/interfaces/class-add.interface';
@@ -64,7 +64,7 @@ export class ClassAddDialogComponent implements OnInit {
     private router: Router,
     private userService: AccountService,
     public gradebookService: GradebookService,
-    private classService: ClassService,
+    private dalClassService: DalClassService,
     private matSnackBar: MatSnackBar,
     public matDialogRef: MatDialogRef<ClassAddDialogComponent>
   ) {}
@@ -78,50 +78,22 @@ export class ClassAddDialogComponent implements OnInit {
     this.isRequesting = true;
     this.errors = '';
     if (valid) {
-      this.classService
+      this.dalClassService
         .add(value)
         .finally(() => (this.isRequesting = false))
         .subscribe(
           (result: any) => {
-            if (result) {
-              // add new class locally
-              const newClass: Class = {
-                id: result,
-                isItemsLoaded: true,
-                name: value.name,
-                isWeighted: value.isWeighted,
-                isActive: true,
-                items: [],
-                completed: 0,
-                remaining: 0,
-                total: 0,
-                dateLastViewed: new Date(),
-                completedEarned: 0,
-                completedPossible: 0,
-                completedGrade: 0,
-                completedGradeColor: '',
-                completedGradeText: '',
-                totalEarned: 0,
-                totalPossible: 0,
-                totalGrade: 0,
-                totalGradeColor: '',
-                totalGradeText: ''
-              };
-              this.gradebookService.classes.push(newClass);
-              this.gradebookService.selectClass(newClass);
+            // currently have to force another navigation or
+            // other links are not clickable. Need to look into a
+            // way to refresh the router without a navigate as
+            // the modal close event should be handling this
+            this.router.navigate([
+              '/gradebook/',
+              this.gradebookService.selectedClass.id
+            ]);
 
-              // currently have to force another navigation or
-              // other links are not clickable. Need to look into a
-              // way to refresh the router without a navigate as
-              // the modal close event should be handling this
-              this.router.navigate([
-                '/gradebook/',
-                this.gradebookService.selectedClass.id
-              ]);
-
-              this.matDialogRef.close();
-              this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
-            }
+            this.matDialogRef.close();
+            this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
           },
           (errors: any) => {
             this.errors = errors;

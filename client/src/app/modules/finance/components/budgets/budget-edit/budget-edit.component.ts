@@ -1,11 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef, MatDialog, MatSnackBar } from '@angular/material';
 import 'rxjs/add/operator/finally';
 
-import { AccountService } from 'account/services/account.service';
 import { FinanceService } from 'finance/services/finance.service';
-import { BudgetService } from 'finance/services/api/budget.service';
+import { DalBudgetService } from 'finance/services/dal/dal.budget.service';
 
 import { Budget } from 'finance/interfaces/budgets/budget.interface';
 import { BudgetEdit } from 'finance/interfaces/budgets/budget-edit.interface';
@@ -20,9 +19,7 @@ export class BudgetEditComponent implements OnInit {
   matDialogRef: MatDialogRef<BudgetEditDialogComponent>;
 
   constructor(
-    public matDialog: MatDialog,
-    private router: Router,
-    private financeService: FinanceService
+    public matDialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -50,9 +47,8 @@ export class BudgetEditDialogComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: AccountService,
     private financeService: FinanceService,
-    private budgetService: BudgetService,
+    private dalBudgetService: DalBudgetService,
     private matSnackBar: MatSnackBar,
     public matDialogRef: MatDialogRef<BudgetEditDialogComponent>
   ) {}
@@ -103,23 +99,13 @@ export class BudgetEditDialogComponent implements OnInit {
 
     if (valid) {
       value.id = this.oldBudget.id;
-      this.budgetService
-        .update(value)
+      this.dalBudgetService
+        .update(this.oldBudget, value)
         .finally(() => (this.isRequesting = false))
         .subscribe(
           (result: any) => {
-            if (result) {
-              this.oldBudget.name = this.newBudget.name;
-
-              // update isActive and put into correct bucket
-              if (this.oldBudget.isActive !== this.newBudget.isActive) {
-                this.oldBudget.isActive = this.newBudget.isActive;
-                this.financeService.budgets = this.financeService.budgets;
-              }
-
-              this.matDialogRef.close();
-              this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
-            }
+            this.matDialogRef.close();
+            this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
           },
           (errors: any) => {
             this.errors = errors;

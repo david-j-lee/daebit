@@ -1,18 +1,20 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+/*
+    This service handles all the calls to the WebAPI for budgets
+*/
 
-import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { ConfigService } from 'core/services/config.service';
 import { BaseService } from 'core/services/base.service';
-import { AccountService } from 'app/modules/account/services/account.service';
+import { AccountService } from 'account/services/account.service';
 
-import { Item } from 'gradebook/interfaces/item.interface';
-import { ItemAdd } from 'gradebook/interfaces/item-add.interface';
-import { ItemEdit } from 'gradebook/interfaces/item-edit.interface';
+import { Budget } from 'finance/interfaces/budgets/budget.interface';
+import { BudgetAdd } from 'finance/interfaces/budgets/budget-add.interface';
+import { BudgetEdit } from 'finance/interfaces/budgets/budget-edit.interface';
 
 @Injectable()
-export class ItemService extends BaseService {
+export class WebApiBudgetService extends BaseService {
   private baseUrl = '';
 
   constructor(private http: HttpClient, private configService: ConfigService) {
@@ -20,28 +22,28 @@ export class ItemService extends BaseService {
     this.baseUrl = configService.getApiURI();
   }
 
-  get(classId: number): Observable<Item[]> {
-    const url = `${this.baseUrl}/items/getall?classId=${classId}`;
+  getAll() {
+    const url = `${this.baseUrl}/budgets/getall`;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.get(url, { headers }).catch(this.handleError);
   }
 
-  add(value: ItemAdd) {
-    const url = this.baseUrl + '/items/add';
+  add(value: BudgetAdd) {
+    const url = this.baseUrl + '/budgets/add';
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(value);
     return this.http.post(url, body, { headers }).catch(this.handleError);
   }
 
-  update(value: ItemEdit) {
-    const url = this.baseUrl + '/items/edit';
+  update(value: BudgetEdit) {
+    const url = this.baseUrl + '/budgets/edit';
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(value);
-    return this.http.post(url, body, { headers }).catch(this.handleError);
+    return this.http.put(url, body, { headers }).catch(this.handleError);
   }
 
   delete(id: number) {
-    const url = `${this.baseUrl}/items/delete?id=${id}`;
+    const url = `${this.baseUrl}/budgets/delete?id=${id}`;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.delete(url, { headers }).catch(this.handleError);
   }

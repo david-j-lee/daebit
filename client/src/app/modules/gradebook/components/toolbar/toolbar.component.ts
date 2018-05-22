@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { GradebookService } from 'gradebook/services/gradebook.service';
+import { DalItemService } from 'gradebook/services/dal/dal.item.service';
 
 import { ClassEditComponent } from 'gradebook/components/class-edit/class-edit.component';
 import { ClassAddComponent } from 'gradebook/components/class-add/class-add.component';
@@ -20,7 +21,8 @@ export class ToolbarComponent implements OnInit {
 
   constructor(
     public gradebookService: GradebookService,
-    public matDialog: MatDialog
+    public matDialog: MatDialog,
+    private dalItemService: DalItemService
   ) {}
 
   ngOnInit() {}
@@ -28,7 +30,7 @@ export class ToolbarComponent implements OnInit {
   onGoalChanged(newValue: number | undefined) {
     if (newValue as number) {
       this.goal = newValue;
-      this.gradebookService.goalSeek(this.goal);
+      this.dalItemService.goalSeek(this.goal);
     }
   }
 

@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
-import { AccountService } from 'account/services/account.service';
 import { FinanceService } from 'finance/services/finance.service';
-import { BudgetService } from 'finance/services/api/budget.service';
-import { ChartService } from 'finance/services/chart.service';
-import { CalendarService } from 'finance/services/calendar.service';
+import { DalBudgetService } from 'finance/services/dal/dal.budget.service';
 
 import { Budget } from 'finance/interfaces/budgets/budget.interface';
 
@@ -17,12 +14,7 @@ import { Budget } from 'finance/interfaces/budgets/budget.interface';
 export class BudgetDeleteComponent implements OnInit {
   matDialogRef: MatDialogRef<BudgetDeleteDialogComponent>;
 
-  constructor(
-    public matDialog: MatDialog,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private financeService: FinanceService
-  ) {}
+  constructor(public matDialog: MatDialog) {}
 
   ngOnInit() {
     setTimeout(() => {
@@ -45,11 +37,8 @@ export class BudgetDeleteDialogComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: AccountService,
     private financeService: FinanceService,
-    private budgetService: BudgetService,
-    private chartService: ChartService,
-    private calendarService: CalendarService,
+    private dalBudgetService: DalBudgetService,
     public matDialog: MatDialog,
     public matDialogRef: MatDialogRef<BudgetDeleteDialogComponent>
   ) {}
@@ -80,22 +69,9 @@ export class BudgetDeleteDialogComponent implements OnInit {
   }
 
   delete() {
-    this.budgetService.delete(this.deleteBudget.id).subscribe(
+    this.dalBudgetService.delete(this.deleteBudget.id).subscribe(
       (result: any) => {
-        if (result) {
-          if (this.financeService.budgets) {
-            const deletedBudget = this.financeService.budgets.find(
-              data => data.id === this.deleteBudget.id
-            );
-            if (deletedBudget) {
-              this.financeService.budgets.splice(
-                this.financeService.budgets.indexOf(deletedBudget),
-                1
-              );
-            }
-          }
-          this.matDialogRef.close();
-        }
+        this.matDialogRef.close();
       },
       (errors: any) => {
         this.errors = errors;

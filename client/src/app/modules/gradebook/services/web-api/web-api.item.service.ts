@@ -1,20 +1,17 @@
-/*
-    This service handles all the calls to the WebAPI for revenues
-*/
-
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { Observable } from 'rxjs/Observable';
 
 import { ConfigService } from 'core/services/config.service';
 import { BaseService } from 'core/services/base.service';
-import { AccountService } from 'account/services/account.service';
+import { AccountService } from 'app/modules/account/services/account.service';
 
-import { Revenue } from 'finance/interfaces/revenues/revenue.interface';
-import { RevenueAdd } from 'finance/interfaces/revenues/revenue-add.interface';
-import { RevenueEdit } from 'finance/interfaces/revenues/revenue-edit.interface';
+import { ItemAdd } from 'gradebook/interfaces/item-add.interface';
+import { ItemEdit } from 'gradebook/interfaces/item-edit.interface';
 
 @Injectable()
-export class RevenueService extends BaseService {
+export class WebApiItemService extends BaseService {
   private baseUrl = '';
 
   constructor(private http: HttpClient, private configService: ConfigService) {
@@ -22,28 +19,28 @@ export class RevenueService extends BaseService {
     this.baseUrl = configService.getApiURI();
   }
 
-  getAll(budgetId: number) {
-    const url = `${this.baseUrl}/revenues/getall?budgetId=${budgetId}`;
+  getAll(classId: number): Observable<any> {
+    const url = `${this.baseUrl}/items/getall?classId=${classId}`;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.get(url, { headers }).catch(this.handleError);
   }
 
-  add(value: RevenueAdd) {
-    const url = this.baseUrl + '/revenues/add';
+  add(value: ItemAdd): Observable<any> {
+    const url = this.baseUrl + '/items/add';
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(value);
     return this.http.post(url, body, { headers }).catch(this.handleError);
   }
 
-  update(value: RevenueEdit) {
-    const url = this.baseUrl + '/revenues/edit';
+  update(value: ItemEdit): Observable<any> {
+    const url = this.baseUrl + '/items/edit';
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(value);
-    return this.http.put(url, body, { headers }).catch(this.handleError);
+    return this.http.post(url, body, { headers }).catch(this.handleError);
   }
 
-  delete(id: number) {
-    const url = `${this.baseUrl}/revenues/delete?id=${id}`;
+  delete(id: number): Observable<any> {
+    const url = `${this.baseUrl}/items/delete?id=${id}`;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.delete(url, { headers }).catch(this.handleError);
   }

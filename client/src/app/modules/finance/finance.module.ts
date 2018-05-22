@@ -12,11 +12,17 @@ import { AccountModule } from 'account/account.module';
 // Services
 import { FinanceService } from 'finance/services/finance.service';
 
-import { BalanceService } from 'finance/services/api/balance.service';
-import { BudgetService } from 'finance/services/api/budget.service';
-import { ExpenseService } from 'finance/services/api/expense.service';
-import { RevenueService } from 'finance/services/api/revenue.service';
-import { SnapshotService } from 'finance/services/api/snapshot.service';
+import { WebApiBalanceService } from 'finance/services/web-api/web-api.balance.service';
+import { WebApiBudgetService } from 'finance/services/web-api/web-api.budget.service';
+import { WebApiExpenseService } from 'finance/services/web-api/web-api.expense.service';
+import { WebApiRevenueService } from 'finance/services/web-api/web-api.revenue.service';
+import { WebApiSnapshotService } from 'finance/services/web-api/web-api.snapshot.service';
+
+import { DalBalanceService } from 'finance/services/dal/dal.balance.service';
+import { DalBudgetService } from 'finance/services/dal/dal.budget.service';
+import { DalExpenseService } from 'finance/services/dal/dal.expense.service';
+import { DalRevenueService } from 'finance/services/dal/dal.revenue.service';
+import { DalSnapshotService } from 'finance/services/dal/dal.snapshot.service';
 
 import { SideBarService } from 'finance/services/side-bar.service';
 
@@ -164,12 +170,17 @@ import {
     WizardComponent
   ],
   providers: [
+    WebApiBalanceService,
+    WebApiBudgetService,
+    WebApiExpenseService,
+    WebApiRevenueService,
+    WebApiSnapshotService,
+    DalBalanceService,
+    DalBudgetService,
+    DalExpenseService,
+    DalRevenueService,
+    DalSnapshotService,
     FinanceService,
-    BalanceService,
-    BudgetService,
-    ExpenseService,
-    RevenueService,
-    SnapshotService,
     SideBarService,
     DailyService,
     ChartService,

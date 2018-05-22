@@ -19,7 +19,7 @@ import { MatTableDataSource, MatDialog } from '@angular/material';
 import { NavbarService, Modules } from 'ui/navbar/navbar.service';
 import { AccountService } from 'account/services/account.service';
 import { GradebookService } from 'gradebook/services/gradebook.service';
-import { ClassService } from 'gradebook/services/api/class.service';
+import { DalClassService } from 'gradebook/services/dal/dal.class.service';
 
 import { ToolbarComponent } from 'gradebook/components/toolbar/toolbar.component';
 import { GradeBarsComponent } from 'gradebook/components/grade-bars/grade-bars.component';
@@ -36,11 +36,6 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./gradebook.component.scss']
 })
 export class GradebookComponent implements OnInit {
-  // @ViewChild(ToolbarComponent) toolBar: ToolbarComponent;
-  // @ViewChild(ItemTableComponent) itemTable: ItemTableComponent;
-  // @ViewChild(GradeBarsComponent) gradeBars: GradeBarsComponent;
-
-  // @Output() requestGoalSeek = new EventEmitter<number>();
 
   constructor(
     private title: Title,
@@ -49,7 +44,7 @@ export class GradebookComponent implements OnInit {
     public matDialog: MatDialog,
     private userService: AccountService,
     public gradebookService: GradebookService,
-    private classService: ClassService,
+    private dalClassService: DalClassService,
     private navBarService: NavbarService
   ) {}
 
@@ -68,12 +63,6 @@ export class GradebookComponent implements OnInit {
   }
 
   private getClasses() {
-    this.classService.getAll().subscribe(result => {
-      if (result) {
-        this.gradebookService.classes = result;
-        this.gradebookService.isLoaded = true;
-        return this.gradebookService.classes;
-      }
-    });
+    this.dalClassService.getAll().subscribe();
   }
 }

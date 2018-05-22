@@ -5,7 +5,7 @@ import 'rxjs/add/operator/finally';
 
 import { AccountService } from 'account/services/account.service';
 import { GradebookService } from 'gradebook/services/gradebook.service';
-import { ClassService } from 'gradebook/services/api/class.service';
+import { DalClassService } from 'gradebook/services/dal/dal.class.service';
 
 import { ClassEdit } from 'gradebook/interfaces/class-edit.interface';
 import { Class } from 'gradebook/interfaces/class.interface';
@@ -42,7 +42,7 @@ export class ClassEditDialogComponent implements OnInit {
   isRequesting: boolean;
   submitted = false;
 
-  oldClass: Class;
+  class: Class;
   newClass: ClassEdit;
 
   navigateToDelete = false;
@@ -52,19 +52,19 @@ export class ClassEditDialogComponent implements OnInit {
     private router: Router,
     private userService: AccountService,
     private gradebookService: GradebookService,
-    private classService: ClassService,
+    private dalClassService: DalClassService,
     private matSnackBar: MatSnackBar,
     public matDialogRef: MatDialogRef<ClassEditDialogComponent>
   ) {}
 
   ngOnInit() {
     this.setAfterClosed();
-    this.oldClass = this.gradebookService.selectedClass;
+    this.class = this.gradebookService.selectedClass;
     this.newClass = {
-      id: this.oldClass.id,
-      name: this.oldClass.name,
-      isWeighted: this.oldClass.isWeighted,
-      isActive: this.oldClass.isActive
+      id: this.class.id,
+      name: this.class.name,
+      isWeighted: this.class.isWeighted,
+      isActive: this.class.isActive
     };
   }
 
@@ -103,29 +103,13 @@ export class ClassEditDialogComponent implements OnInit {
     this.errors = '';
 
     if (valid) {
-      value.id = this.oldClass.id;
-      this.classService
-        .update(value)
+      this.dalClassService
+        .update(this.class, value)
         .finally(() => (this.isRequesting = false))
         .subscribe(
           (result: any) => {
-            if (result) {
-              this.oldClass.name = this.newClass.name;
-
-              // update isActive and put into correct bucket
-              if (this.oldClass.isActive !== this.newClass.isActive) {
-                this.oldClass.isActive = this.newClass.isActive;
-                this.gradebookService.classes = this.gradebookService.classes;
-              }
-              // Update is weighted and setup new columns
-              if (this.oldClass.isWeighted !== this.newClass.isWeighted) {
-                this.oldClass.isWeighted = this.newClass.isWeighted;
-                this.gradebookService.updateClassStats();
-              }
-
-              this.matDialogRef.close();
-              this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
-            }
+            this.matDialogRef.close();
+            this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
           },
           (errors: any) => {
             this.errors = errors;

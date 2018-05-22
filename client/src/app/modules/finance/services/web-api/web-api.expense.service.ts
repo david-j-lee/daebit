@@ -14,7 +14,7 @@ import { ExpenseAdd } from 'finance/interfaces/expenses/expense-add.interface';
 import { ExpenseEdit } from 'finance/interfaces/expenses/expense-edit.interface';
 
 @Injectable()
-export class ExpenseService extends BaseService {
+export class WebApiExpenseService extends BaseService {
   private baseUrl = '';
 
   constructor(private http: HttpClient, private configService: ConfigService) {

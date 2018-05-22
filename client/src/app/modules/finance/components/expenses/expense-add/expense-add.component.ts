@@ -1,17 +1,9 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef, MatSnackBar, MatDialog } from '@angular/material';
 
-import { AccountService } from 'account/services/account.service';
 import { FinanceService } from 'finance/services/finance.service';
-import { ExpenseService } from 'finance/services/api/expense.service';
-import { DailyService } from 'finance/services/daily.service';
-import { ChartService } from 'finance/services/chart.service';
+import { DalExpenseService } from 'finance/services/dal/dal.expense.service';
 
 import { Expense } from 'finance/interfaces/expenses/expense.interface';
 import { ExpenseAdd } from 'finance/interfaces/expenses/expense-add.interface';
@@ -56,11 +48,8 @@ export class ExpenseAddDialogComponent implements OnInit {
   myExpense: ExpenseAdd;
 
   constructor(
-    private userService: AccountService,
     public financeService: FinanceService,
-    private expenseService: ExpenseService,
-    private dailyService: DailyService,
-    private chartService: ChartService,
+    private dalExpenseService: DalExpenseService,
     private matSnackBar: MatSnackBar,
     public matDialogRef: MatDialogRef<ExpenseAddDialogComponent>
   ) {}
@@ -89,46 +78,13 @@ export class ExpenseAddDialogComponent implements OnInit {
     this.isRequesting = true;
     this.errors = '';
     if (valid) {
-      value.budgetId = this.financeService.selectedBudget.id;
-      this.expenseService
+      this.dalExpenseService
         .add(value)
         .finally(() => (this.isRequesting = false))
         .subscribe(
           (result: any) => {
-            if (result) {
-              // add new class locally
-              const newExpense: Expense = {
-                id: result,
-                description: value.description,
-                amount: value.amount,
-                isForever: value.isForever,
-                frequency: value.frequency,
-                startDate: value.startDate,
-                endDate: value.endDate,
-                repeatMon: value.repeatMon,
-                repeatTue: value.repeatTue,
-                repeatWed: value.repeatWed,
-                repeatThu: value.repeatThu,
-                repeatFri: value.repeatFri,
-                repeatSat: value.repeatSat,
-                repeatSun: value.repeatSun,
-                yearlyAmount: 0,
-                dailyExpenses: []
-              };
-
-              this.financeService.selectedBudget.expenses.push(newExpense);
-              this.matDialogRef.close();
-              this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
-
-              // generate daily data and update charts
-              this.dailyService.generateExpense(newExpense);
-              newExpense.yearlyAmount = this.dailyService.getYearlyAmountExpense(
-                newExpense
-              );
-              this.dailyService.setRunningTotals();
-              this.chartService.setChartExpense();
-              this.chartService.setChartBudget();
-            }
+            this.matDialogRef.close();
+            this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
           },
           (errors: any) => {
             this.errors = errors;

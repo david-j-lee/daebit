@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   MatDialogRef,
@@ -7,11 +7,8 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material';
 
-import { AccountService } from 'account/services/account.service';
 import { FinanceService } from 'finance/services/finance.service';
-import { ExpenseService } from 'finance/services/api/expense.service';
-import { DailyService } from 'finance/services/daily.service';
-import { ChartService } from 'finance/services/chart.service';
+import { DalExpenseService } from 'finance/services/dal/dal.expense.service';
 
 import { Expense } from 'finance/interfaces/expenses/expense.interface';
 import { ExpenseAdd } from 'finance/interfaces/expenses/expense-add.interface';
@@ -65,10 +62,7 @@ export class ExpenseEditDialogComponent implements OnInit {
   constructor(
     public financeService: FinanceService,
     private router: Router,
-    private userService: AccountService,
-    private expenseService: ExpenseService,
-    private dailyService: DailyService,
-    private chartService: ChartService,
+    private dalExpenseService: DalExpenseService,
     private matSnackBar: MatSnackBar,
     public matDialogRef: MatDialogRef<ExpenseEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -80,7 +74,7 @@ export class ExpenseEditDialogComponent implements OnInit {
     if (this.financeService.selectedBudget.expenses) {
       this.getData();
     } else {
-      this.expenseService
+      this.dalExpenseService
         .getAll(this.financeService.selectedBudget.id)
         .subscribe(result => {
           if (result) {
@@ -151,40 +145,13 @@ export class ExpenseEditDialogComponent implements OnInit {
     this.errors = '';
 
     if (valid) {
-      value.id = this.oldExpense.id;
-      this.expenseService
-        .update(value)
+      this.dalExpenseService
+        .update(this.oldExpense, value)
         .finally(() => (this.isRequesting = false))
         .subscribe(
           (result: any) => {
-            if (result) {
-              this.oldExpense.description = this.newExpense.description;
-              this.oldExpense.amount = this.newExpense.amount;
-              this.oldExpense.isForever = this.newExpense.isForever;
-              this.oldExpense.frequency = this.newExpense.frequency;
-              this.oldExpense.startDate = this.newExpense.startDate;
-              this.oldExpense.endDate = this.newExpense.endDate;
-              this.oldExpense.repeatMon = this.newExpense.repeatMon;
-              this.oldExpense.repeatTue = this.newExpense.repeatTue;
-              this.oldExpense.repeatWed = this.newExpense.repeatWed;
-              this.oldExpense.repeatThu = this.newExpense.repeatThu;
-              this.oldExpense.repeatFri = this.newExpense.repeatFri;
-              this.oldExpense.repeatSat = this.newExpense.repeatSat;
-              this.oldExpense.repeatSun = this.newExpense.repeatSun;
-
-              this.matDialogRef.close();
-              this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
-
-              // update all
-              this.dailyService.deleteExpense(this.oldExpense);
-              this.dailyService.generateExpense(this.oldExpense);
-              this.oldExpense.yearlyAmount = this.dailyService.getYearlyAmountExpense(
-                this.oldExpense
-              );
-              this.dailyService.setRunningTotals();
-              this.chartService.setChartExpense();
-              this.chartService.setChartBudget();
-            }
+            this.matDialogRef.close();
+            this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
           },
           (errors: any) => {
             this.errors = errors;

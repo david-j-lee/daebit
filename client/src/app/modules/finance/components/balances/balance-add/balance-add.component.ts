@@ -1,17 +1,9 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialogRef, MatSnackBar, MatDialog } from '@angular/material';
 
-import { AccountService } from 'account/services/account.service';
 import { FinanceService } from 'finance/services/finance.service';
-import { BalanceService } from 'finance/services/api/balance.service';
-import { DailyService } from 'finance/services/daily.service';
-import { ChartService } from 'finance/services/chart.service';
+import { DalBalanceService } from 'finance/services/dal/dal.balance.service';
 
 import { Balance } from 'finance/interfaces/balances/balance.interface';
 import { BalanceAdd } from 'finance/interfaces/balances/balance-add.interface';
@@ -56,11 +48,8 @@ export class BalanceAddDialogComponent implements OnInit {
   myBalance: BalanceAdd;
 
   constructor(
-    private userService: AccountService,
     public financeService: FinanceService,
-    private balanceService: BalanceService,
-    private dailyService: DailyService,
-    private chartService: ChartService,
+    private dalBalanceService: DalBalanceService,
     private matSnackBar: MatSnackBar,
     public matDialogRef: MatDialogRef<BalanceAddDialogComponent>
   ) {}
@@ -79,29 +68,13 @@ export class BalanceAddDialogComponent implements OnInit {
     this.errors = '';
     if (valid) {
       value.budgetId = this.financeService.selectedBudget.id;
-      this.balanceService
+      this.dalBalanceService
         .add(value)
         .finally(() => (this.isRequesting = false))
         .subscribe(
           (result: any) => {
-            if (result) {
-              // add new class locally
-              const newBalance: Balance = {
-                id: result,
-                description: value.description,
-                amount: value.amount
-              };
-
-              this.financeService.selectedBudget.balances.push(newBalance);
-              this.matDialogRef.close();
-              this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
-
-              // generate daily data and update charts
-              this.dailyService.generateBalance(newBalance);
-              this.dailyService.generateDailyBudget();
-              this.chartService.setChartBalance();
-              this.chartService.setChartBudget();
-            }
+            this.matDialogRef.close();
+            this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
           },
           (errors: any) => {
             this.errors = errors;

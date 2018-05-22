@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   MatDialogRef,
@@ -7,11 +7,8 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material';
 
-import { AccountService } from 'account/services/account.service';
 import { FinanceService } from 'finance/services/finance.service';
-import { RevenueService } from 'finance/services/api/revenue.service';
-import { DailyService } from 'finance/services/daily.service';
-import { ChartService } from 'finance/services/chart.service';
+import { DalRevenueService } from 'finance/services/dal/dal.revenue.service';
 
 import { RevenueEdit } from 'finance/interfaces/revenues/revenue-edit.interface';
 import { Revenue } from 'finance/interfaces/revenues/revenue.interface';
@@ -26,8 +23,7 @@ export class RevenueDeleteComponent implements OnInit {
   constructor(
     public matDialog: MatDialog,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private financeService: FinanceService
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -67,11 +63,8 @@ export class RevenueDeleteDialogComponent implements OnInit {
   deleteRevenue: Revenue;
 
   constructor(
-    private userService: AccountService,
     private financeService: FinanceService,
-    private revenueService: RevenueService,
-    private dailyService: DailyService,
-    private chartService: ChartService,
+    private dalRevenueService: DalRevenueService,
     public matDialog: MatDialog,
     private matSnackBar: MatSnackBar,
     public matDialogRef: MatDialogRef<RevenueDeleteDialogComponent>,
@@ -82,7 +75,7 @@ export class RevenueDeleteDialogComponent implements OnInit {
     if (this.financeService.selectedBudget.revenues) {
       this.getData();
     } else {
-      this.revenueService
+      this.dalRevenueService
         .getAll(this.financeService.selectedBudget.id)
         .subscribe(result => {
           if (result) {
@@ -101,34 +94,10 @@ export class RevenueDeleteDialogComponent implements OnInit {
   }
 
   delete() {
-    this.revenueService.delete(this.deleteRevenue.id).subscribe(
+    this.dalRevenueService.delete(this.deleteRevenue.id).subscribe(
       (result: any) => {
-        if (result) {
-          this.matDialogRef.close();
-          this.matSnackBar.open('Deleted', 'Dismiss', { duration: 2000 });
-          if (this.financeService.selectedBudget.expenses) {
-            const deletedRevenue = this.financeService.selectedBudget.revenues.find(
-              data => data.id === this.deleteRevenue.id
-            );
-            if (deletedRevenue) {
-              this.financeService.selectedBudget.revenues.splice(
-                this.financeService.selectedBudget.revenues.indexOf(
-                  deletedRevenue
-                ),
-                1
-              );
-
-              this.matDialogRef.close();
-              this.matSnackBar.open('Deleted', 'Dismiss', { duration: 2000 });
-
-              // update daily data and chart
-              this.dailyService.deleteRevenue(deletedRevenue);
-              this.dailyService.setRunningTotals();
-              this.chartService.setChartRevenue();
-              this.chartService.setChartBudget();
-            }
-          }
-        }
+        this.matDialogRef.close();
+        this.matSnackBar.open('Deleted', 'Dismiss', { duration: 2000 });
       },
       (errors: any) => {
         this.errors = errors;

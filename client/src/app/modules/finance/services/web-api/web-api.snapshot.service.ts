@@ -1,5 +1,5 @@
 /*
-    This service handles all the calls to the WebAPI for budgets
+    This service handles all the calls to the WebAPI for snapshots
 */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -9,12 +9,12 @@ import { ConfigService } from 'core/services/config.service';
 import { BaseService } from 'core/services/base.service';
 import { AccountService } from 'account/services/account.service';
 
-import { Budget } from 'finance/interfaces/budgets/budget.interface';
-import { BudgetAdd } from 'finance/interfaces/budgets/budget-add.interface';
-import { BudgetEdit } from 'finance/interfaces/budgets/budget-edit.interface';
+import { Snapshot } from 'finance/interfaces/snapshots/snapshot.interface';
+import { SnapshotAddAll } from 'finance/interfaces/snapshots/snapshot-add-all.interface';
+import { BalanceAdd } from 'finance/interfaces/balances/balance-add.interface';
 
 @Injectable()
-export class BudgetService extends BaseService {
+export class WebApiSnapshotService extends BaseService {
   private baseUrl = '';
 
   constructor(private http: HttpClient, private configService: ConfigService) {
@@ -22,28 +22,21 @@ export class BudgetService extends BaseService {
     this.baseUrl = configService.getApiURI();
   }
 
-  getAll() {
-    const url = `${this.baseUrl}/budgets/getall`;
+  getAll(budgetId: number) {
+    const url = `${this.baseUrl}/snapshots/getall?budgetId=${budgetId}`;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.get(url, { headers }).catch(this.handleError);
   }
 
-  add(value: BudgetAdd) {
-    const url = this.baseUrl + '/budgets/add';
+  save(value: SnapshotAddAll) {
+    const url = this.baseUrl + '/snapshots/add';
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(value);
     return this.http.post(url, body, { headers }).catch(this.handleError);
   }
 
-  update(value: BudgetEdit) {
-    const url = this.baseUrl + '/budgets/edit';
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const body = JSON.stringify(value);
-    return this.http.put(url, body, { headers }).catch(this.handleError);
-  }
-
   delete(id: number) {
-    const url = `${this.baseUrl}/budgets/delete?id=${id}`;
+    const url = `${this.baseUrl}/snapshots/delete?id=${id}`;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.delete(url, { headers }).catch(this.handleError);
   }

@@ -5,7 +5,7 @@ import 'rxjs/add/operator/finally';
 
 import { AccountService } from 'account/services/account.service';
 import { GradebookService } from 'gradebook/services/gradebook.service';
-import { ClassService } from 'gradebook/services/api/class.service';
+import { DalClassService } from 'gradebook/services/dal/dal.class.service';
 
 import { ClassEdit } from 'gradebook/interfaces/class-edit.interface';
 import { Class } from 'gradebook/interfaces/class.interface';
@@ -47,7 +47,7 @@ export class ClassDeleteDialogComponent implements OnInit {
     private router: Router,
     private userService: AccountService,
     private gradebookService: GradebookService,
-    private classService: ClassService,
+    private dalClassService: DalClassService,
     public matDialog: MatDialog,
     private matSnackBar: MatSnackBar,
     public matDialogRef: MatDialogRef<ClassDeleteComponent>
@@ -82,22 +82,9 @@ export class ClassDeleteDialogComponent implements OnInit {
   }
 
   delete() {
-    this.classService.delete(this.deleteClass.id).subscribe(
+    this.dalClassService.delete(this.deleteClass.id).subscribe(
       (result: any) => {
-        if (result) {
-          if (this.gradebookService.classes) {
-            const deletedClass = this.gradebookService.classes.find(
-              data => data.id === this.deleteClass.id
-            );
-            if (deletedClass) {
-              this.gradebookService.classes.splice(
-                this.gradebookService.classes.indexOf(deletedClass),
-                1
-              );
-            }
-          }
-          this.matDialogRef.close();
-        }
+        this.matDialogRef.close();
       },
       (errors: any) => {
         this.errors = errors;

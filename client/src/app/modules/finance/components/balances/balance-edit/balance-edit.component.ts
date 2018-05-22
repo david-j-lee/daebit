@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   MatDialogRef,
@@ -7,11 +7,8 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material';
 
-import { AccountService } from 'account/services/account.service';
 import { FinanceService } from 'finance/services/finance.service';
-import { BalanceService } from 'finance/services/api/balance.service';
-import { DailyService } from 'finance/services/daily.service';
-import { ChartService } from 'finance/services/chart.service';
+import { DalBalanceService } from 'finance/services/dal/dal.balance.service';
 
 import { Balance } from 'finance/interfaces/balances/balance.interface';
 import { BalanceAdd } from 'finance/interfaces/balances/balance-add.interface';
@@ -29,7 +26,6 @@ export class BalanceEditComponent implements OnInit {
   constructor(
     public matDialog: MatDialog,
     private router: Router,
-    private financeService: FinanceService,
     private activatedRoute: ActivatedRoute
   ) {}
 
@@ -64,11 +60,8 @@ export class BalanceEditDialogComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: AccountService,
     private financeService: FinanceService,
-    private balanceService: BalanceService,
-    private dailyService: DailyService,
-    private chartService: ChartService,
+    private dalBalanceService: DalBalanceService,
     private matSnackBar: MatSnackBar,
     public matDialogRef: MatDialogRef<BalanceEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -80,7 +73,7 @@ export class BalanceEditDialogComponent implements OnInit {
     if (this.financeService.selectedBudget.balances) {
       this.getData();
     } else {
-      this.balanceService
+      this.dalBalanceService
         .getAll(this.financeService.selectedBudget.id)
         .subscribe(result => {
           if (result) {
@@ -139,26 +132,13 @@ export class BalanceEditDialogComponent implements OnInit {
     this.errors = '';
 
     if (valid) {
-      value.id = this.oldBalance.id;
-      this.balanceService
-        .update(value)
+      this.dalBalanceService
+        .update(this.oldBalance, value)
         .finally(() => (this.isRequesting = false))
         .subscribe(
           (result: any) => {
-            if (result) {
-              this.oldBalance.description = this.newBalance.description;
-              this.oldBalance.amount = this.newBalance.amount;
-
-              this.matDialogRef.close();
-              this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
-
-              // update all
-              this.dailyService.deleteBalance(this.oldBalance);
-              this.dailyService.generateBalance(this.oldBalance);
-              this.dailyService.setRunningTotals();
-              this.chartService.setChartBalance();
-              this.chartService.setChartBudget();
-            }
+            this.matDialogRef.close();
+            this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
           },
           (errors: any) => {
             this.errors = errors;

@@ -11,8 +11,12 @@ import { AccountModule } from 'account/account.module';
 import { GradebookRouting } from 'gradebook/gradebook.routing';
 import { GradebookService } from 'gradebook/services/gradebook.service';
 import { GradebookCalcService } from 'gradebook/services/gradebook-calc.service';
-import { ItemService } from 'gradebook/services/api/item.service';
-import { ClassService } from 'gradebook/services/api/class.service';
+
+import { WebApiItemService } from 'gradebook/services/web-api/web-api.item.service';
+import { WebApiClassService } from 'gradebook/services/web-api/web-api.class.service';
+
+import { DalItemService } from 'gradebook/services/dal/dal.item.service';
+import { DalClassService } from 'gradebook/services/dal/dal.class.service';
 
 import { GradebookComponent } from './gradebook.component';
 import { GradebookListingComponent } from 'gradebook/components/gradebook-listing/gradebook-listing.component';
@@ -68,6 +72,13 @@ import {
     ClassEditDialogComponent,
     ClassDeleteDialogComponent
   ],
-  providers: [ClassService, ItemService, GradebookService, GradebookCalcService]
+  providers: [
+    WebApiClassService,
+    WebApiItemService,
+    DalClassService,
+    DalItemService,
+    GradebookService,
+    GradebookCalcService
+  ]
 })
 export class GradebookModule {}

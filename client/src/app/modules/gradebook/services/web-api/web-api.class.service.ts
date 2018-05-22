@@ -1,20 +1,17 @@
-/*
-    This service handles all the calls to the WebAPI for snapshots
-*/
-
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { Observable } from 'rxjs/Observable';
 
 import { ConfigService } from 'core/services/config.service';
 import { BaseService } from 'core/services/base.service';
 import { AccountService } from 'account/services/account.service';
 
-import { Snapshot } from 'finance/interfaces/snapshots/snapshot.interface';
-import { SnapshotAddAll } from 'finance/interfaces/snapshots/snapshot-add-all.interface';
-import { BalanceAdd } from 'finance/interfaces/balances/balance-add.interface';
+import { ClassAdd } from 'gradebook/interfaces/class-add.interface';
+import { ClassEdit } from 'gradebook/interfaces/class-edit.interface';
 
 @Injectable()
-export class SnapshotService extends BaseService {
+export class WebApiClassService extends BaseService {
   private baseUrl = '';
 
   constructor(private http: HttpClient, private configService: ConfigService) {
@@ -22,21 +19,28 @@ export class SnapshotService extends BaseService {
     this.baseUrl = configService.getApiURI();
   }
 
-  getAll(budgetId: number) {
-    const url = `${this.baseUrl}/snapshots/getall?budgetId=${budgetId}`;
+  getAll(): Observable<any> {
+    const url = `${this.baseUrl}/classes/getall`;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.get(url, { headers }).catch(this.handleError);
   }
 
-  save(value: SnapshotAddAll) {
-    const url = this.baseUrl + '/snapshots/add';
+  add(value: ClassAdd): Observable<any> {
+    const url = this.baseUrl + '/classes/add';
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = JSON.stringify(value);
     return this.http.post(url, body, { headers }).catch(this.handleError);
   }
 
-  delete(id: number) {
-    const url = `${this.baseUrl}/snapshots/delete?id=${id}`;
+  update(value: ClassEdit): Observable<any> {
+    const url = this.baseUrl + '/classes/edit';
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const body = JSON.stringify(value);
+    return this.http.put(url, body, { headers }).catch(this.handleError);
+  }
+
+  delete(id: number): Observable<any> {
+    const url = `${this.baseUrl}/classes/delete?id=${id}`;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.delete(url, { headers }).catch(this.handleError);
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   MatDialogRef,
@@ -7,11 +7,8 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material';
 
-import { AccountService } from 'account/services/account.service';
 import { FinanceService } from 'finance/services/finance.service';
-import { RevenueService } from 'finance/services/api/revenue.service';
-import { DailyService } from 'finance/services/daily.service';
-import { ChartService } from 'finance/services/chart.service';
+import { DalRevenueService } from 'finance/services/dal/dal.revenue.service';
 
 import { Revenue } from 'finance/interfaces/revenues/revenue.interface';
 import { RevenueAdd } from 'finance/interfaces/revenues/revenue-add.interface';
@@ -28,8 +25,6 @@ export class RevenueEditComponent implements OnInit {
 
   constructor(
     public matDialog: MatDialog,
-    private router: Router,
-    private financeService: FinanceService,
     private activatedRoute: ActivatedRoute
   ) {}
 
@@ -65,10 +60,7 @@ export class RevenueEditDialogComponent implements OnInit {
   constructor(
     public financeService: FinanceService,
     private router: Router,
-    private userService: AccountService,
-    private revenueService: RevenueService,
-    private dailyService: DailyService,
-    private chartService: ChartService,
+    private dalRevenueService: DalRevenueService,
     private matSnackBar: MatSnackBar,
     public matDialogRef: MatDialogRef<RevenueEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -80,7 +72,7 @@ export class RevenueEditDialogComponent implements OnInit {
     if (this.financeService.selectedBudget.revenues) {
       this.getData();
     } else {
-      this.revenueService
+      this.dalRevenueService
         .getAll(this.financeService.selectedBudget.id)
         .subscribe(result => {
           if (result) {
@@ -151,40 +143,13 @@ export class RevenueEditDialogComponent implements OnInit {
     this.errors = '';
 
     if (valid) {
-      value.id = this.oldRevenue.id;
-      this.revenueService
-        .update(value)
+      this.dalRevenueService
+        .update(this.oldRevenue, value)
         .finally(() => (this.isRequesting = false))
         .subscribe(
           (result: any) => {
-            if (result) {
-              this.oldRevenue.description = this.newRevenue.description;
-              this.oldRevenue.amount = this.newRevenue.amount;
-              this.oldRevenue.isForever = this.newRevenue.isForever;
-              this.oldRevenue.frequency = this.newRevenue.frequency;
-              this.oldRevenue.startDate = this.newRevenue.startDate;
-              this.oldRevenue.endDate = this.newRevenue.endDate;
-              this.oldRevenue.repeatMon = this.newRevenue.repeatMon;
-              this.oldRevenue.repeatTue = this.newRevenue.repeatTue;
-              this.oldRevenue.repeatWed = this.newRevenue.repeatWed;
-              this.oldRevenue.repeatThu = this.newRevenue.repeatThu;
-              this.oldRevenue.repeatFri = this.newRevenue.repeatFri;
-              this.oldRevenue.repeatSat = this.newRevenue.repeatSat;
-              this.oldRevenue.repeatSun = this.newRevenue.repeatSun;
-
-              this.matDialogRef.close();
-              this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
-
-              // update daily data and charts
-              this.dailyService.deleteRevenue(this.oldRevenue);
-              this.dailyService.generateRevenue(this.oldRevenue);
-              this.oldRevenue.yearlyAmount = this.dailyService.getYearlyAmountRevenue(
-                this.oldRevenue
-              );
-              this.dailyService.setRunningTotals();
-              this.chartService.setChartRevenue();
-              this.chartService.setChartBudget();
-            }
+            this.matDialogRef.close();
+            this.matSnackBar.open('Saved', 'Dismiss', { duration: 2000 });
           },
           (errors: any) => {
             this.errors = errors;
