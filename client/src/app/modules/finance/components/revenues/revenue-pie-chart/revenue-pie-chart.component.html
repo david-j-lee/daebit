@@ -1,11 +1,14 @@
 <h2 class="h5 text-center">Revenues</h2>
 <div class="budgets-pie-chart">
-    <div *ngIf="chartService.chartRevenue">
-        <canvas baseChart
-                [options]="chartService.chartRevenue.options"
-                [colors]="chartService.chartRevenue.colors"
-                [data]="chartService.chartRevenue.data"
-                [labels]="chartService.chartRevenue.labels"
-                [chartType]="chartService.chartRevenue.chartType"></canvas>
-    </div>
+  <div *ngIf="chartService.chartRevenue">
+    <canvas baseChart
+            [options]="chartService.chartRevenue.options"
+            [colors]="chartService.chartRevenue.colors"
+            [data]="chartService.chartRevenue.data"
+            [labels]="chartService.chartRevenue.labels"
+            [chartType]="chartService.chartRevenue.chartType"></canvas>
+    <h5 class="text-center mt-3">
+      {{ chartService.chartRevenue.total | currency:'':'symbol':'1.0-0' }}
+    </h5>
+  </div>
 </div>

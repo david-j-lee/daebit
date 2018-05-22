@@ -6,4 +6,5 @@ export interface ChartExpense {
     colors: any;
     labels: string[];
     data: number[];
+    total: number;
 }

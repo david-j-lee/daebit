@@ -6,4 +6,5 @@ export interface ChartRevenue {
     colors: any;
     labels: string[];
     data: number[];
+    total: number;
 }

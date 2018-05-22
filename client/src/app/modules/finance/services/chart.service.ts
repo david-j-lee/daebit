@@ -88,9 +88,11 @@ export class ChartService {
     if (this.financeService.selectedBudget.balances) {
       const labels: string[] = [];
       const data: number[] = [];
+      let total = 0;
       this.financeService.selectedBudget.balances.forEach(balance => {
         labels.push(balance.description);
         data.push(balance.amount);
+        total += balance.amount;
       });
 
       this.chartBalance = {
@@ -102,7 +104,8 @@ export class ChartService {
           this.balanceColorNormal
         ),
         labels: labels,
-        data: data
+        data: data,
+        total: total
       };
     } else {
       this.chartBalance = undefined;
@@ -113,12 +116,14 @@ export class ChartService {
     if (this.financeService.selectedBudget.revenues) {
       const labels: string[] = [];
       const data: number[] = [];
+      let total = 0;
       this.financeService.selectedBudget.revenues.forEach(revenue => {
         revenue.yearlyAmount = this.dailyService.getYearlyAmountRevenue(
           revenue
         );
         labels.push(revenue.description);
         data.push(revenue.yearlyAmount);
+        total += revenue.yearlyAmount;
       });
       this.chartRevenue = {
         chartType: 'doughnut',
@@ -129,7 +134,8 @@ export class ChartService {
           this.revenueColorNormal
         ),
         labels: labels,
-        data: data
+        data: data,
+        total: total
       };
     } else {
       this.chartRevenue = undefined;
@@ -140,12 +146,14 @@ export class ChartService {
     if (this.financeService.selectedBudget.expenses) {
       const labels: string[] = [];
       const data: number[] = [];
+      let total = 0;
       this.financeService.selectedBudget.expenses.forEach(expense => {
         expense.yearlyAmount = this.dailyService.getYearlyAmountExpense(
           expense
         );
         labels.push(expense.description);
         data.push(expense.yearlyAmount);
+        total += expense.yearlyAmount;
       });
       this.chartExpense = {
         chartType: 'doughnut',
@@ -156,7 +164,8 @@ export class ChartService {
           this.expenseColorNormal
         ),
         labels: labels,
-        data: data
+        data: data,
+        total: total
       };
     } else {
       this.chartExpense = undefined;

@@ -4,4 +4,5 @@ export interface ChartBalance {
     colors: any;
     labels: string[];
     data: number[];
+    total: number;
 }
