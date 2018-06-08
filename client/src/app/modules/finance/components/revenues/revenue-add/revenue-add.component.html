@@ -81,7 +81,6 @@
                     color="primary">Is Forever</mat-checkbox>
     </div>
     <div *ngIf="!myRevenue.isForever || (myRevenue.frequency === 'Once' || myRevenue.frequency === 'Monthly' || myRevenue.frequency === 'Yearly')"
-
          class="my-2">
       <mat-form-field>
         <input matInput
@@ -89,7 +88,8 @@
                name="startDate"
                placeholder="Start Date"
                [(ngModel)]="myRevenue.startDate"
-               [matDatepicker]="startDatePicker">
+               [matDatepicker]="startDatePicker"
+               required="!isForever || frequency === 'Once' || frequency === 'Monthly' || frequency === 'Yearly'">
         <mat-datepicker-toggle matSuffix
                                [for]="startDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #startDatePicker></mat-datepicker>
@@ -104,7 +104,8 @@
                name="endDate"
                placeholder="End Date"
                [(ngModel)]="myRevenue.endDate"
-               [matDatepicker]="endDatePicker">
+               [matDatepicker]="endDatePicker"
+               required="!isForever">
         <mat-datepicker-toggle matSuffix
                                [for]="endDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #endDatePicker></mat-datepicker>

@@ -89,7 +89,8 @@
                name="startDate"
                placeholder="Start Date"
                [(ngModel)]="myExpense.startDate"
-               [matDatepicker]="startDatePicker">
+               [matDatepicker]="startDatePicker"
+               required="!isForever || frequency === 'Once' || frequency === 'Monthly' || frequency === 'Yearly'">
         <mat-datepicker-toggle matSuffix
                                [for]="startDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #startDatePicker></mat-datepicker>
@@ -104,7 +105,8 @@
                name="endDate"
                placeholder="End Date"
                [(ngModel)]="myExpense.endDate"
-               [matDatepicker]="endDatePicker">
+               [matDatepicker]="endDatePicker"
+               required="!isForever">
         <mat-datepicker-toggle matSuffix
                                [for]="endDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #endDatePicker></mat-datepicker>
