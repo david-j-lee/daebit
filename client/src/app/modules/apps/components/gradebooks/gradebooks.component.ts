@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ScrollTopService } from 'core/services/scroll-top.service';
+
 @Component({
   selector: 'app-gradebooks',
   templateUrl: './gradebooks.component.html',
   styleUrls: ['./gradebooks.component.scss']
 })
 export class GradebooksComponent implements OnInit {
-  constructor() { }
+  constructor(private scrollTopService: ScrollTopService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.scrollTopService.setScrollTop();
+  }
 }

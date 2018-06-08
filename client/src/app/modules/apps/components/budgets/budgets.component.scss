@@ -1,5 +1,6 @@
 .mat-toolbar {
   position: fixed;
+  z-index: 1;
 }
 .hero {
   text-align: center;
@@ -23,4 +24,36 @@
   p {
     font-size: 1.5rem;
   }
+  a {
+    z-index: 0;
+  }
+}
+
+.call-to-action .container {
+  max-width: 750px;
+}
+
+mat-icon {
+  font-size: 5rem;
+  color: #212529;
+  width: 100% !important;
+}
+
+.info {
+  .col-md-6 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    div {
+      max-width: 400px;
+      margin: auto;
+    }
+  }
+  img {
+    width: 100%;
+  }
+}
+
+.sign-up {
+  background-color: #eee;
 }

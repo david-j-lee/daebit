@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ScrollTopService } from 'core/services/scroll-top.service';
+
 @Component({
   selector: 'app-budgets',
   templateUrl: './budgets.component.html',
   styleUrls: ['./budgets.component.scss']
 })
 export class BudgetsComponent implements OnInit {
-  constructor() { }
+  constructor(private scrollTopService: ScrollTopService) {}
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.scrollTopService.setScrollTop();
+  }
 }
