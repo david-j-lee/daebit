@@ -6,10 +6,19 @@
 html,
 body {
   height: 100%;
-  font-family: 'Dosis', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   letter-spacing: 2px;
   margin: 0;
   padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Heebo', sans-serif;
 }
 
 form {
