@@ -122,97 +122,72 @@ export class ChartService {
 
   setChartBalance() {
     if (this.financeService.selectedBudget.balances) {
-      const labels: string[] = [];
-      const data: number[] = [];
       let total = 0;
+
+      this.chartBalance.data.length = 0;
+      this.chartBalance.labels.length = 0;
+
       this.financeService.selectedBudget.balances.forEach(balance => {
-        labels.push(balance.description);
-        data.push(balance.amount);
+        this.chartBalance.data.push(balance.amount);
+        this.chartBalance.labels.push(balance.description);
+
         total += balance.amount;
       });
 
       this.chartBalance.colors = this.generateSingleColors(
-        data.length,
+        this.chartBalance.data.length,
         this.balanceColorLightest,
         this.balanceColorNormal
       );
       this.chartBalance.total = total;
-
-      this.chartBalance.data.length = 0;
-      data.forEach(record => {
-        this.chartBalance.data.push(record);
-      });
-
-      this.chartBalance.labels.length = 0;
-      labels.forEach(label => {
-        this.chartBalance.labels.push(label);
-      });
     }
   }
 
   setChartRevenue() {
     if (this.financeService.selectedBudget.revenues) {
-      const labels: string[] = [];
-      const data: number[] = [];
       let total = 0;
+
+      this.chartRevenue.data.length = 0;
+      this.chartRevenue.labels.length = 0;
+
       this.financeService.selectedBudget.revenues.forEach(revenue => {
-        revenue.yearlyAmount = this.dailyService.getYearlyAmountRevenue(
-          revenue
-        );
-        labels.push(revenue.description);
-        data.push(revenue.yearlyAmount);
+        revenue.yearlyAmount = this.dailyService.getTotalRevenue(revenue);
+        this.chartRevenue.data.push(revenue.yearlyAmount);
+        this.chartRevenue.labels.push(revenue.description);
+
         total += revenue.yearlyAmount;
       });
 
       this.chartRevenue.colors = this.generateSingleColors(
-        data.length,
+        this.chartRevenue.data.length,
         this.revenueColorLightest,
         this.revenueColorNormal
       );
       this.chartRevenue.total = total;
-
-      this.chartRevenue.data.length = 0;
-      data.forEach(record => {
-        this.chartRevenue.data.push(record);
-      });
-
-      this.chartRevenue.labels.length = 0;
-      labels.forEach(label => {
-        this.chartRevenue.labels.push(label);
-      });
     }
   }
 
   setChartExpense() {
     if (this.financeService.selectedBudget.expenses) {
-      const labels: string[] = [];
-      const data: number[] = [];
       let total = 0;
+
+      this.chartExpense.data.length = 0;
+      this.chartExpense.labels.length = 0;
+
       this.financeService.selectedBudget.expenses.forEach(expense => {
-        expense.yearlyAmount = this.dailyService.getYearlyAmountExpense(
-          expense
-        );
-        labels.push(expense.description);
-        data.push(expense.yearlyAmount);
+        expense.yearlyAmount = this.dailyService.getTotalExpense(expense);
+        this.chartExpense.data.push(expense.yearlyAmount);
+        this.chartExpense.labels.push(expense.description);
+
         total += expense.yearlyAmount;
       });
 
       this.chartExpense.colors = this.generateSingleColors(
-        data.length,
+        this.chartExpense.data.length,
         this.expenseColorLightest,
         this.expenseColorNormal
       );
       this.chartExpense.total = total;
-
-      this.chartExpense.data.length = 0;
-      data.forEach(record => {
-        this.chartExpense.data.push(record);
-      });
-
-      this.chartExpense.labels.length = 0;
-      labels.forEach(label => {
-        this.chartExpense.labels.push(label);
-      });
     }
   }
 

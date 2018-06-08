@@ -27,7 +27,7 @@ export class DailyService {
 
   constructor(private financeService: FinanceService) {}
 
-  getYearlyAmountRevenue(revenue: Revenue): number {
+  getTotalRevenue(revenue: Revenue): number {
     if (revenue.dailyRevenues) {
       return revenue.dailyRevenues.reduce((sum, item) => sum + item.amount, 0);
     } else {
@@ -35,7 +35,7 @@ export class DailyService {
     }
   }
 
-  getYearlyAmountExpense(expense: Expense): number {
+  getTotalExpense(expense: Expense): number {
     if (expense.dailyExpenses) {
       return expense.dailyExpenses.reduce((sum, item) => sum + item.amount, 0);
     } else {

@@ -56,9 +56,7 @@ export class DalExpenseService {
 
       // generate daily data and update charts
       this.dailyService.generateExpense(newExpense);
-      newExpense.yearlyAmount = this.dailyService.getYearlyAmountExpense(
-        newExpense
-      );
+      newExpense.yearlyAmount = this.dailyService.getTotalExpense(newExpense);
 
       this.dailyService.setRunningTotals();
       this.chartService.setChartExpense();
@@ -88,9 +86,7 @@ export class DalExpenseService {
       // update all
       this.dailyService.deleteExpense(oldExpense);
       this.dailyService.generateExpense(oldExpense);
-      oldExpense.yearlyAmount = this.dailyService.getYearlyAmountExpense(
-        oldExpense
-      );
+      oldExpense.yearlyAmount = this.dailyService.getTotalExpense(oldExpense);
       this.dailyService.setRunningTotals();
       this.chartService.setChartExpense();
       this.chartService.setChartBudget();

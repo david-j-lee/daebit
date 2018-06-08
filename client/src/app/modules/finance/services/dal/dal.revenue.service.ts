@@ -54,9 +54,7 @@ export class DalRevenueService {
 
       // update daily data and charts
       this.dailyService.generateRevenue(newRevenue);
-      newRevenue.yearlyAmount = this.dailyService.getYearlyAmountRevenue(
-        newRevenue
-      );
+      newRevenue.yearlyAmount = this.dailyService.getTotalRevenue(newRevenue);
       this.dailyService.setRunningTotals();
       this.chartService.setChartRevenue();
       this.chartService.setChartBudget();
@@ -83,9 +81,7 @@ export class DalRevenueService {
       // update daily data and charts
       this.dailyService.deleteRevenue(oldRevenue);
       this.dailyService.generateRevenue(oldRevenue);
-      oldRevenue.yearlyAmount = this.dailyService.getYearlyAmountRevenue(
-        oldRevenue
-      );
+      oldRevenue.yearlyAmount = this.dailyService.getTotalRevenue(oldRevenue);
       this.dailyService.setRunningTotals();
       this.chartService.setChartRevenue();
       this.chartService.setChartBudget();

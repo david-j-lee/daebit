@@ -42,7 +42,6 @@ export class DalBalanceService {
 
       // generate daily data and update charts
       this.dailyService.generateBalance(newBalance);
-      this.dailyService.generateDailyBudget();
       this.chartService.setChartBalance();
       this.chartService.setChartBudget();
 
