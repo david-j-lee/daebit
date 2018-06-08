@@ -45,7 +45,7 @@ To restore the client project run the following from the root directory. This pr
 
 - `cd server`
 - `dotnet restore`
-- `dotnet ef update-database`
+- `dotnet ef database update`
 
 ## Running the Project
 
