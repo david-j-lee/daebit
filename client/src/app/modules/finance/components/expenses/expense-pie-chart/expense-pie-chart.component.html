@@ -8,7 +8,7 @@
             [labels]="chartService.chartExpense.labels"
             [chartType]="chartService.chartExpense.chartType"></canvas>
     <h5 class="text-center mt-3">
-      {{ chartService.chartExpense.total | currency:'':'symbol':'1.0-0' }}
+      {{ chartService.chartExpense?.total | currency:'':'symbol':'1.0-0' }}
     </h5>
   </div>
 </div>

@@ -16,28 +16,59 @@ import { Expense } from 'finance/interfaces/expenses/expense.interface';
 
 @Injectable()
 export class ChartService {
-  chartBalance: ChartBalance;
-  chartRevenue: ChartRevenue;
-  chartExpense: ChartExpense;
-  chartBudget: ChartBudget;
-
-  balanceColorLightest = 'rgba(54, 162, 235, 0.2)';
-  balanceColorLight = 'rgba(54, 162, 235, 0.8)';
-  balanceColorNormal = 'rgba(54, 162, 235, 1)';
-
-  revenueColorLightest = 'rgba(75, 192, 192, 0.2)';
-  revenueColorLight = 'rgba(75, 192, 192, 0.8)';
-  revenueColorNormal = 'rgba(75, 192, 192, 1)';
-
-  expenseColorLightest = 'rgba(255, 99, 132, 0.2)';
-  expenseColorLight = 'rgba(255, 99, 132, 0.8)';
-  expenseColorNormal = 'rgba(255, 99, 132, 1)';
-
   pieOptions = {
     animation: { duration: 0 },
     responsive: true,
     maintainAspectRatio: false,
     legend: { display: false }
+  };
+
+  balanceColorLightest = 'rgba(54, 162, 235, 0.2)';
+  balanceColorLight = 'rgba(54, 162, 235, 0.8)';
+  balanceColorNormal = 'rgba(54, 162, 235, 1)';
+  chartBalance: ChartBalance = {
+    chartType: 'doughnut',
+    options: this.pieOptions,
+    colors: this.generateSingleColors(
+      1,
+      this.balanceColorLightest,
+      this.balanceColorNormal
+    ),
+    labels: [''],
+    data: [0],
+    total: 0
+  };
+
+  revenueColorLightest = 'rgba(75, 192, 192, 0.2)';
+  revenueColorLight = 'rgba(75, 192, 192, 0.8)';
+  revenueColorNormal = 'rgba(75, 192, 192, 1)';
+  chartRevenue: ChartRevenue = {
+    chartType: 'doughnut',
+    options: this.pieOptions,
+    colors: this.generateSingleColors(
+      1,
+      this.revenueColorLightest,
+      this.revenueColorNormal
+    ),
+    labels: [''],
+    data: [0],
+    total: 0
+  };
+
+  expenseColorLightest = 'rgba(255, 99, 132, 0.2)';
+  expenseColorLight = 'rgba(255, 99, 132, 0.8)';
+  expenseColorNormal = 'rgba(255, 99, 132, 1)';
+  chartExpense: ChartExpense = {
+    chartType: 'doughnut',
+    options: this.pieOptions,
+    colors: this.generateSingleColors(
+      1,
+      this.expenseColorLightest,
+      this.expenseColorNormal
+    ),
+    labels: [''],
+    data: [0],
+    total: 0
   };
 
   lineOptions = {
@@ -78,11 +109,16 @@ export class ChartService {
       pointHoverBorderColor: this.expenseColorLight
     }
   ];
+  chartBudget: ChartBudget;
 
   constructor(
     private financeService: FinanceService,
     private dailyService: DailyService
   ) {}
+
+  // https://github.com/valor-software/ng2-charts/issues/774
+  // Chart.js has a bug in which the chart will not update new labels
+  // unless they are modified with the original array reference.
 
   setChartBalance() {
     if (this.financeService.selectedBudget.balances) {
@@ -95,20 +131,22 @@ export class ChartService {
         total += balance.amount;
       });
 
-      this.chartBalance = {
-        chartType: 'doughnut',
-        options: this.pieOptions,
-        colors: this.generateSingleColors(
-          data.length,
-          this.balanceColorLightest,
-          this.balanceColorNormal
-        ),
-        labels: labels,
-        data: data,
-        total: total
-      };
-    } else {
-      this.chartBalance = undefined;
+      this.chartBalance.colors = this.generateSingleColors(
+        data.length,
+        this.balanceColorLightest,
+        this.balanceColorNormal
+      );
+      this.chartBalance.total = total;
+
+      this.chartBalance.data.length = 0;
+      data.forEach(record => {
+        this.chartBalance.data.push(record);
+      });
+
+      this.chartBalance.labels.length = 0;
+      labels.forEach(label => {
+        this.chartBalance.labels.push(label);
+      });
     }
   }
 
@@ -125,20 +163,23 @@ export class ChartService {
         data.push(revenue.yearlyAmount);
         total += revenue.yearlyAmount;
       });
-      this.chartRevenue = {
-        chartType: 'doughnut',
-        options: this.pieOptions,
-        colors: this.generateSingleColors(
-          data.length,
-          this.revenueColorLightest,
-          this.revenueColorNormal
-        ),
-        labels: labels,
-        data: data,
-        total: total
-      };
-    } else {
-      this.chartRevenue = undefined;
+
+      this.chartRevenue.colors = this.generateSingleColors(
+        data.length,
+        this.revenueColorLightest,
+        this.revenueColorNormal
+      );
+      this.chartRevenue.total = total;
+
+      this.chartRevenue.data.length = 0;
+      data.forEach(record => {
+        this.chartRevenue.data.push(record);
+      });
+
+      this.chartRevenue.labels.length = 0;
+      labels.forEach(label => {
+        this.chartRevenue.labels.push(label);
+      });
     }
   }
 
@@ -155,20 +196,23 @@ export class ChartService {
         data.push(expense.yearlyAmount);
         total += expense.yearlyAmount;
       });
-      this.chartExpense = {
-        chartType: 'doughnut',
-        options: this.pieOptions,
-        colors: this.generateSingleColors(
-          data.length,
-          this.expenseColorLightest,
-          this.expenseColorNormal
-        ),
-        labels: labels,
-        data: data,
-        total: total
-      };
-    } else {
-      this.chartExpense = undefined;
+
+      this.chartExpense.colors = this.generateSingleColors(
+        data.length,
+        this.expenseColorLightest,
+        this.expenseColorNormal
+      );
+      this.chartExpense.total = total;
+
+      this.chartExpense.data.length = 0;
+      data.forEach(record => {
+        this.chartExpense.data.push(record);
+      });
+
+      this.chartExpense.labels.length = 0;
+      labels.forEach(label => {
+        this.chartExpense.labels.push(label);
+      });
     }
   }
 
