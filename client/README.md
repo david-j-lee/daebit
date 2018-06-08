@@ -7,8 +7,8 @@ This client is developed with Angular 5 in TypeScript.
 ## TODO
 
 * [x] Dynamically set the WebAPI url in config.service.ts
-* [ ] Put totals for balances, revenues and expenses on both graph and calendar views.
-* [ ] Create another layer of services to separate business logic from components
+* [x] Put totals for balances, revenues and expenses on both graph and calendar views.
+* [x] Create another layer of services to separate business logic from components
 * [ ] Lazy Load Modules
 * [ ] Unit Tests
 * [ ] Integration Tests
