@@ -1,0 +1,45 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <button mat-icon-button
+            (click)="toggleMenu()"
+            class="mr-3 d-md-none">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="brand pointer">
+      <app-logo svgHeight="30px"
+                hexColor="333"></app-logo>
+      <span [routerLink]="['/']"
+            class="brand-text">Daebit</span>
+    </span>
+    <span [routerLink]="['/budgets/about']"
+          class="nav-item pointer ml-5 d-none d-md-flex">
+      <img src="assets/images/finances.png"
+           class="d-block" /> Budgets
+    </span>
+    <span [routerLink]="['/gradebooks/about']"
+          class="nav-item pointer ml-5 d-none d-md-flex">
+      <img src="assets/images/grades.png"
+           class="d-block" /> Gradebooks
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #snav
+               [opened]="isSidenavOpen && !mobileQuery.matches">
+    <mat-nav-list>
+      <a mat-list-item
+         [routerLink]="['/budgets/about']">
+        <img src="assets/images/finances.png"
+             class="d-block" /> Budgets
+      </a>
+      <a mat-list-item
+         [routerLink]="['/gradebooks/about']">
+        <img src="assets/images/grades.png"
+             class="d-block" /> Gradebooks
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

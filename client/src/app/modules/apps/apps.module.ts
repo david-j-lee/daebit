@@ -10,6 +10,7 @@ import { AccountModule } from 'account/account.module';
 
 import { AppsRouting } from './apps.routing';
 import { AppsComponent } from './apps.component';
+import { AboutComponent } from 'apps/components/about/about.component';
 import { ListingComponent } from 'apps/components/listing/listing.component';
 import { GradebooksComponent } from 'apps/components/gradebooks/gradebooks.component';
 import { BudgetsComponent } from 'apps/components/budgets/budgets.component';
@@ -27,6 +28,7 @@ import { BudgetsComponent } from 'apps/components/budgets/budgets.component';
   ],
   declarations: [
     AppsComponent,
+    AboutComponent,
     ListingComponent,
     BudgetsComponent,
     GradebooksComponent

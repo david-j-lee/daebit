@@ -1,0 +1,14 @@
+.mat-toolbar {
+  position: fixed;
+  z-index: 999;
+}
+.content {
+  z-index: 0;
+}
+.mat-nav-list {
+  margin-top: 4.5rem;
+  img {
+    width: 25px;
+    margin-right: 15px;
+  }
+}
