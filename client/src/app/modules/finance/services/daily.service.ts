@@ -25,7 +25,7 @@ export class DailyService {
   numberOfDays = 365;
   budget: Budget;
 
-  constructor(private financeService: FinanceService) {}
+  constructor(private financeService: FinanceService) { }
 
   getTotalRevenue(revenue: Revenue): number {
     if (revenue.dailyRevenues) {
@@ -203,7 +203,7 @@ export class DailyService {
 
   private generateOnceRevenue(revenue: Revenue) {
     const day = this.financeService.selectedBudget.days.find(
-      x => x.date.format('L') == revenue.startDate.format('L')
+      x => x.date.format('L') === revenue.startDate.format('L')
     );
     if (day) {
       const dailyRevenue: DailyRevenue = {
@@ -222,7 +222,7 @@ export class DailyService {
 
   private generateOnceExpense(expense: Expense) {
     const day = this.financeService.selectedBudget.days.find(
-      x => x.date.format('L') == expense.startDate.format('L')
+      x => x.date.format('L') === expense.startDate.format('L')
     );
     if (day) {
       const dailyExpense: DailyExpense = {
@@ -247,7 +247,7 @@ export class DailyService {
       revenue.isForever
     );
     const minDay = this.budget.days.find(
-      x => x.date.format('L') == minDate.format('L')
+      x => x.date.format('L') === minDate.format('L')
     );
     const minDayIndex = this.budget.days.indexOf(minDay);
     const maxDate = this.getEndDate(
@@ -283,7 +283,7 @@ export class DailyService {
       expense.isForever
     );
     const minDay = this.budget.days.find(
-      x => x.date.format('L') == minDate.format('L')
+      x => x.date.format('L') === minDate.format('L')
     );
     const minDayIndex = this.budget.days.indexOf(minDay);
     const maxDate = this.getEndDate(
@@ -326,7 +326,7 @@ export class DailyService {
       revenue.isForever
     );
     const firstDateIndex = this.budget.days.indexOf(
-      this.budget.days.find(x => x.date.format('L') == firstDate.format('L'))
+      this.budget.days.find(x => x.date.format('L') === firstDate.format('L'))
     );
     const numLoops = maxDate.diff(firstDate, 'days', true) / skipDays;
 
@@ -365,7 +365,7 @@ export class DailyService {
       expense.isForever
     );
     const firstDateIndex = this.budget.days.indexOf(
-      this.budget.days.find(x => x.date.format('L') == firstDate.format('L'))
+      this.budget.days.find(x => x.date.format('L') === firstDate.format('L'))
     );
     const numLoops = maxDate.diff(firstDate, 'days', true) / skipDays;
 
@@ -402,7 +402,7 @@ export class DailyService {
       revenue.isForever
     );
     const firstDateIndex = this.budget.days.indexOf(
-      this.budget.days.find(x => x.date.format('L') == firstDate.format('L'))
+      this.budget.days.find(x => x.date.format('L') === firstDate.format('L'))
     );
     const numLoops = Math.ceil(maxDate.diff(firstDate, 'M', true)) / numMonths;
 
@@ -440,7 +440,7 @@ export class DailyService {
       expense.isForever
     );
     const firstDateIndex = this.budget.days.indexOf(
-      this.budget.days.find(x => x.date.format('L') == firstDate.format('L'))
+      this.budget.days.find(x => x.date.format('L') === firstDate.format('L'))
     );
     const numLoops = Math.ceil(maxDate.diff(firstDate, 'M', true)) / numMonths;
 
@@ -467,25 +467,25 @@ export class DailyService {
 
   private dailyRepeatDays(item: any): number[] {
     const repeatDays: number[] = [];
-    if (item.repeatMon) {
+    if (item.repeatSun) {
       repeatDays.push(0);
     }
-    if (item.repeatTue) {
+    if (item.repeatMon) {
       repeatDays.push(1);
     }
-    if (item.repeatWed) {
+    if (item.repeatTue) {
       repeatDays.push(2);
     }
-    if (item.repeatThu) {
+    if (item.repeatWed) {
       repeatDays.push(3);
     }
-    if (item.repeatFri) {
+    if (item.repeatThu) {
       repeatDays.push(4);
     }
-    if (item.repeatSat) {
+    if (item.repeatFri) {
       repeatDays.push(5);
     }
-    if (item.repeatSun) {
+    if (item.repeatSat) {
       repeatDays.push(6);
     }
     return repeatDays;
