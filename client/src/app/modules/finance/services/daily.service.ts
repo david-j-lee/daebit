@@ -325,9 +325,7 @@ export class DailyService {
       revenue.frequency,
       revenue.isForever
     );
-    const firstDateIndex = this.budget.days.indexOf(
-      this.budget.days.find(x => x.date.format('L') === firstDate.format('L'))
-    );
+    const firstDateIndex = this.getFirstDayIndex(firstDate);
     const numLoops = maxDate.diff(firstDate, 'days', true) / skipDays;
 
     for (let i = 0; i < numLoops; i++) {
@@ -364,9 +362,7 @@ export class DailyService {
       expense.frequency,
       expense.isForever
     );
-    const firstDateIndex = this.budget.days.indexOf(
-      this.budget.days.find(x => x.date.format('L') === firstDate.format('L'))
-    );
+    const firstDateIndex = this.getFirstDayIndex(firstDate);
     const numLoops = maxDate.diff(firstDate, 'days', true) / skipDays;
 
     for (let i = 0; i < numLoops; i++) {
@@ -491,6 +487,17 @@ export class DailyService {
     return repeatDays;
   }
 
+  private getFirstDayIndex(date: Moment) {
+    const firstDay = this.budget.days[0];
+    if (date < firstDay.date) {
+      return date.diff(firstDay.date, 'd');
+    } else {
+      return this.budget.days.indexOf(
+        this.budget.days.find(x => x.date.format('L') === date.format('L'))
+      );
+    }
+  }
+
   private getStartDate(
     budgetStartDate: Moment,
     itemStartDate: Moment,
@@ -498,13 +505,13 @@ export class DailyService {
     isForever: boolean
   ): Moment {
     let date = budgetStartDate.clone();
-    if (!isForever && itemStartDate >= budgetStartDate) {
-      date = itemStartDate.clone();
-    }
 
-    // if weekly get first monday
-    if (!isForever && (frequency === 'Weekly' || frequency === 'Bi-Weekly')) {
-      date = itemStartDate.clone().isoWeekday(1);
+    if (frequency === 'Weekly' || frequency === 'Bi-Weekly') {
+      if (isForever) {
+        date = date.weekday(0);
+      } else {
+        date = itemStartDate.clone().weekday(0);
+      }
     }
 
     // if monthly get most recent month
