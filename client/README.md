@@ -1,6 +1,6 @@
 # Daebit Client
 
-This is the front end client for [daebit.com](https://daebit.com).
+This is the front end client.
 
 This client is developed with Angular 5 in TypeScript.
 
