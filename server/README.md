@@ -1,6 +1,6 @@
 # Daebit Server
 
-This is the WebAPI for [daebit.com](https://daebit.com) and can be accessed via [api.daebit.com](https://api.daebit.com).
+This is the WebAPI.
 
 This WebAPI is developed with ASP Core 2 in C#.
 
